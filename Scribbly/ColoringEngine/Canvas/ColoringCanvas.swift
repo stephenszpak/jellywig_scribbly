@@ -113,7 +113,7 @@ final class ArtworkView: UIView {
     override func draw(_ rect: CGRect) {
         UIColor.white.setFill(); UIRectFill(bounds)
         if let image = engine.image { UIImage(cgImage: image).draw(in: bounds) }
-        if let ctx = UIGraphicsGetCurrentContext() { LineArtRenderer.draw(engine.page.template, in: ctx, size: bounds.size) }
+        if let ctx = UIGraphicsGetCurrentContext() { LineArtRenderer.draw(engine.page.lineArt, in: ctx, size: bounds.size) }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

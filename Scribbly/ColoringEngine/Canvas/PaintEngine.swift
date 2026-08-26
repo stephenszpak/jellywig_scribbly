@@ -134,10 +134,31 @@ final class PaintEngine {
         let ctx = CGContext(data: nil, width: size, height: size, bitsPerComponent: 8, bytesPerRow: size * 4, space: cs, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
         ctx.translateBy(x: 0, y: CGFloat(size)); ctx.scaleBy(x: 1, y: -1)
         ctx.setFillColor(UIColor.white.cgColor); ctx.fill(CGRect(x: 0, y: 0, width: size, height: size))
-        LineArtRenderer.draw(page.template, in: ctx, size: CGSize(width: size, height: size), lineWidth: 18)
+        LineArtRenderer.draw(page.lineArt, in: ctx, size: CGSize(width: size, height: size), lineWidth: 18)
         let bytes = ctx.data!.assumingMemoryBound(to: UInt8.self)
         var result = [UInt8](repeating: 0, count: size * size)
         for index in result.indices { result[index] = bytes[index * 4] < 220 ? 1 : 0 }
+        if case .image = page.lineArt { dilate(&result, size: size, radius: 2) }
         return result
+    }
+
+    /// Thickens the line-art boundary in a raw 0/1 mask so thin or lightly
+    /// anti-aliased outlines (typical of generated artwork) still reliably
+    /// stop Magic Fill from leaking between regions.
+    private static func dilate(_ mask: inout [UInt8], size: Int, radius: Int) {
+        let source = mask
+        for y in 0..<size {
+            for x in 0..<size {
+                let index = y * size + x
+                guard source[index] == 0 else { continue }
+                let minX = max(0, x - radius), maxX = min(size - 1, x + radius)
+                let minY = max(0, y - radius), maxY = min(size - 1, y + radius)
+                outer: for ny in minY...maxY {
+                    for nx in minX...maxX {
+                        if source[ny * size + nx] == 1 { mask[index] = 1; break outer }
+                    }
+                }
+            }
+        }
     }
 }

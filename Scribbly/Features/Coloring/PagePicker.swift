@@ -38,6 +38,6 @@ private struct LineArtPreview: UIViewRepresentable {
         var page: ColoringPage
         init(page: ColoringPage) { self.page = page; super.init(frame: .zero); backgroundColor = .white; contentMode = .redraw }
         required init?(coder: NSCoder) { fatalError() }
-        override func draw(_ rect: CGRect) { if let context = UIGraphicsGetCurrentContext() { LineArtRenderer.draw(page.template, in: context, size: bounds.size) } }
+        override func draw(_ rect: CGRect) { if let context = UIGraphicsGetCurrentContext() { LineArtRenderer.draw(page.lineArt, in: context, size: bounds.size) } }
     }
 }

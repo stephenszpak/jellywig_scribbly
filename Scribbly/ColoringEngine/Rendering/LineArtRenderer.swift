@@ -1,7 +1,14 @@
 import UIKit
 
 enum LineArtRenderer {
-    static func draw(_ template: LineArtTemplate, in context: CGContext, size: CGSize, lineWidth: CGFloat? = nil) {
+    static func draw(_ source: LineArtSource, in context: CGContext, size: CGSize, lineWidth: CGFloat? = nil) {
+        switch source {
+        case let .procedural(template): drawProcedural(template, in: context, size: size, lineWidth: lineWidth)
+        case let .image(name): drawImage(named: name, in: context, size: size)
+        }
+    }
+
+    private static func drawProcedural(_ template: LineArtTemplate, in context: CGContext, size: CGSize, lineWidth: CGFloat?) {
         context.saveGState()
         context.setStrokeColor(UIColor.black.cgColor)
         context.setFillColor(UIColor.clear.cgColor)
@@ -15,6 +22,51 @@ enum LineArtRenderer {
         case .friendlyFish: fish(context)
         case .spaceAdventure: space(context)
         }
+        context.restoreGState()
+    }
+
+    // Only ever read/written from the main thread (UIView drawing and
+    // PaintEngine setup both run on the main actor in this app).
+    nonisolated(unsafe) private static var imageCache: [String: UIImage] = [:]
+
+    private static func loadImage(named name: String) -> UIImage? {
+        if let cached = imageCache[name] { return cached }
+        guard let url = Bundle.main.url(forResource: name, withExtension: "png", subdirectory: "ColoringPages"),
+              let raw = UIImage(contentsOfFile: url.path),
+              let transparent = makeTransparentLineArt(from: raw) else { return nil }
+        imageCache[name] = transparent
+        return transparent
+    }
+
+    /// Bundled line art is typically a flat black-on-white PNG with no alpha
+    /// channel. Drawn as-is, that opaque white background would paint over
+    /// the child's coloring underneath on every redraw. This converts light
+    /// pixels to transparent and dark pixels to opaque black, so only the
+    /// line work itself composites on top of the paint layer.
+    private static func makeTransparentLineArt(from image: UIImage) -> UIImage? {
+        guard let cgImage = image.cgImage else { return image }
+        let width = cgImage.width, height = cgImage.height
+        guard width > 0, height > 0,
+              let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: width * 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+        else { return image }
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+        guard let bytes = context.data?.assumingMemoryBound(to: UInt8.self) else { return image }
+        for pixel in 0..<(width * height) {
+            let offset = pixel * 4
+            let luminance = (Int(bytes[offset]) + Int(bytes[offset + 1]) + Int(bytes[offset + 2])) / 3
+            bytes[offset] = 0; bytes[offset + 1] = 0; bytes[offset + 2] = 0
+            bytes[offset + 3] = UInt8(clamping: 255 - luminance)
+        }
+        guard let outputImage = context.makeImage() else { return image }
+        return UIImage(cgImage: outputImage, scale: image.scale, orientation: .up)
+    }
+
+    private static func drawImage(named name: String, in context: CGContext, size: CGSize) {
+        guard let image = loadImage(named: name) else { return }
+        context.saveGState()
+        UIGraphicsPushContext(context)
+        image.draw(in: CGRect(origin: .zero, size: size))
+        UIGraphicsPopContext()
         context.restoreGState()
     }
 

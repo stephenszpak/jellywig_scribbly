@@ -12,7 +12,14 @@ targets:
   Scribbly:
     type: application
     platform: iOS
-    sources: [Scribbly]
+    sources:
+      - path: Scribbly
+        excludes:
+          - "Resources/ColoringPages/**"
+      - path: Scribbly/Resources/ColoringPages
+        type: folder
+        excludes:
+          - "README.md"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.scribbly.app

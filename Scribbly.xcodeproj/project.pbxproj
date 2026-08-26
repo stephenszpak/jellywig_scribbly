@@ -13,6 +13,7 @@
 		44820FFD04679E08801077D2 /* PaintEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D285D72FA169B223023CBC /* PaintEngine.swift */; };
 		456EC4B1403282A538FB5B8A /* ColoringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F302C3BD2C93E55A1EF291 /* ColoringView.swift */; };
 		62370277CD0595701845EC32 /* PaintAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B05D5CEF9D8C8C63E7E5078 /* PaintAction.swift */; };
+		6912D54010883E7C0518F932 /* ColoringPages in Resources */ = {isa = PBXBuildFile; fileRef = C41EC7D275BF2721F9625209 /* ColoringPages */; };
 		7ADE2DF90C30E51C63F080CA /* ScribblyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135FDECFDBDD71B3083BD7E1 /* ScribblyTests.swift */; };
 		9C5FB768E274881C5FBC6680 /* CanvasTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */; };
 		A2E18BD99FBE90245448D7D2 /* ScribblyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67872CF221E6546759FCF681 /* ScribblyApp.swift */; };
@@ -42,6 +43,7 @@
 		7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTransform.swift; sourceTree = "<group>"; };
 		985C253C23016707173ECC69 /* LineArtRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineArtRenderer.swift; sourceTree = "<group>"; };
 		B9D285D72FA169B223023CBC /* PaintEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintEngine.swift; sourceTree = "<group>"; };
+		C41EC7D275BF2721F9625209 /* ColoringPages */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ColoringPages; path = Scribbly/Resources/ColoringPages; sourceTree = SOURCE_ROOT; };
 		D3F302C3BD2C93E55A1EF291 /* ColoringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoringView.swift; sourceTree = "<group>"; };
 		F865972B42D4F0743748A9C4 /* ColoringCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoringCanvas.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -139,6 +141,7 @@
 		BE3DC3F0634B30434112BAAE = {
 			isa = PBXGroup;
 			children = (
+				C41EC7D275BF2721F9625209 /* ColoringPages */,
 				516A9C0A793F7B2F60C1F08B /* Scribbly */,
 				72297B83FD4A93A1D4E779EC /* ScribblyTests */,
 				CA17213EF3BF1743EDB685C5 /* Products */,
@@ -162,6 +165,13 @@
 			path = Rendering;
 			sourceTree = "<group>";
 		};
+		"TEMP_E87FEE3A-452F-478F-9E31-8E0A24CDF5CE" /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -170,6 +180,7 @@
 			buildConfigurationList = 517D91CBE49B78DD4F756199 /* Build configuration list for PBXNativeTarget "Scribbly" */;
 			buildPhases = (
 				DF2ECA225C663B0A1A8E6C0C /* Sources */,
+				C80661203134EB5982065FCB /* Resources */,
 			);
 			buildRules = (
 			);
@@ -233,6 +244,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C80661203134EB5982065FCB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6912D54010883E7C0518F932 /* ColoringPages in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		21BC502BE654B3920AB5A628 /* Sources */ = {
