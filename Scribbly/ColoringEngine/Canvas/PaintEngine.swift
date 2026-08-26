@@ -138,7 +138,10 @@ final class PaintEngine {
         let bytes = ctx.data!.assumingMemoryBound(to: UInt8.self)
         var result = [UInt8](repeating: 0, count: size * size)
         for index in result.indices { result[index] = bytes[index * 4] < 220 ? 1 : 0 }
-        if case .image = page.lineArt { dilate(&result, size: size, radius: 2) }
+        switch page.lineArt {
+        case .image, .generated: dilate(&result, size: size, radius: 2)
+        case .procedural, .blank: break
+        }
         return result
     }
 

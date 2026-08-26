@@ -4,7 +4,9 @@ enum LineArtRenderer {
     static func draw(_ source: LineArtSource, in context: CGContext, size: CGSize, lineWidth: CGFloat? = nil) {
         switch source {
         case let .procedural(template): drawProcedural(template, in: context, size: size, lineWidth: lineWidth)
-        case let .image(name): drawImage(named: name, in: context, size: size)
+        case let .image(name): if let image = loadBundledImage(named: name) { drawImage(image, in: context, size: size) }
+        case let .generated(filename): if let image = loadGeneratedImage(filename: filename) { drawImage(image, in: context, size: size) }
+        case .blank: break
         }
     }
 
@@ -27,14 +29,24 @@ enum LineArtRenderer {
 
     // Only ever read/written from the main thread (UIView drawing and
     // PaintEngine setup both run on the main actor in this app).
-    nonisolated(unsafe) private static var imageCache: [String: UIImage] = [:]
+    nonisolated(unsafe) private static var bundledImageCache: [String: UIImage] = [:]
+    nonisolated(unsafe) private static var generatedImageCache: [String: UIImage] = [:]
 
-    private static func loadImage(named name: String) -> UIImage? {
-        if let cached = imageCache[name] { return cached }
+    private static func loadBundledImage(named name: String) -> UIImage? {
+        if let cached = bundledImageCache[name] { return cached }
         guard let url = Bundle.main.url(forResource: name, withExtension: "png", subdirectory: "ColoringPages"),
               let raw = UIImage(contentsOfFile: url.path),
               let transparent = makeTransparentLineArt(from: raw) else { return nil }
-        imageCache[name] = transparent
+        bundledImageCache[name] = transparent
+        return transparent
+    }
+
+    private static func loadGeneratedImage(filename: String) -> UIImage? {
+        if let cached = generatedImageCache[filename] { return cached }
+        let url = GeneratedPageStore.shared.imageURL(for: filename)
+        guard let raw = UIImage(contentsOfFile: url.path),
+              let transparent = makeTransparentLineArt(from: raw) else { return nil }
+        generatedImageCache[filename] = transparent
         return transparent
     }
 
@@ -61,8 +73,7 @@ enum LineArtRenderer {
         return UIImage(cgImage: outputImage, scale: image.scale, orientation: .up)
     }
 
-    private static func drawImage(named name: String, in context: CGContext, size: CGSize) {
-        guard let image = loadImage(named: name) else { return }
+    private static func drawImage(_ image: UIImage, in context: CGContext, size: CGSize) {
         context.saveGState()
         UIGraphicsPushContext(context)
         image.draw(in: CGRect(origin: .zero, size: size))

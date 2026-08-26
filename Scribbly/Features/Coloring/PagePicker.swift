@@ -8,7 +8,7 @@ struct PagePicker: View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 220), spacing: 24)], spacing: 24) {
-                    ForEach(ColoringPage.samples) { page in
+                    ForEach(ColoringPage.samples + GeneratedPageStore.shared.pages) { page in
                         Button {
                             selectedPage = page; dismiss()
                         } label: {

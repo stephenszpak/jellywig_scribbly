@@ -8,12 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		0730A57485B366283498BBF8 /* ColoringPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0964776D815475395514C8CA /* ColoringPage.swift */; };
+		2192C14D21F2C183AD1E5FBC /* ParentGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D106AF24D08AD6CDEDD42C0 /* ParentGateView.swift */; };
+		2D2BFFB9B54BD1F957286F4B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE72A50AEE79DB57CEE667 /* HomeView.swift */; };
 		3B4041DF6B491E99CB753971 /* ColoringCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F865972B42D4F0743748A9C4 /* ColoringCanvas.swift */; };
 		40855971BA694E1B53D176C6 /* LineArtRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985C253C23016707173ECC69 /* LineArtRenderer.swift */; };
 		44820FFD04679E08801077D2 /* PaintEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D285D72FA169B223023CBC /* PaintEngine.swift */; };
 		456EC4B1403282A538FB5B8A /* ColoringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F302C3BD2C93E55A1EF291 /* ColoringView.swift */; };
+		4785051F2454795CD17B75EF /* GeneratedPageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBBD93E335FDCB7B8F212D3 /* GeneratedPageStore.swift */; };
+		5CB4801450C610996BB02717 /* OpenAIImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FF606F81CA09FDEB1B90AF /* OpenAIImageGenerator.swift */; };
 		62370277CD0595701845EC32 /* PaintAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B05D5CEF9D8C8C63E7E5078 /* PaintAction.swift */; };
 		6912D54010883E7C0518F932 /* ColoringPages in Resources */ = {isa = PBXBuildFile; fileRef = C41EC7D275BF2721F9625209 /* ColoringPages */; };
+		7560755D1C7786FA0F6C8DB2 /* CreatePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FFCDE1C4452D1950E5A19C /* CreatePageView.swift */; };
+		78CE16B5CAF1BC8CE6C3DE5F /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146768FD4EEBF23D80EE89FB /* Secrets.swift */; };
 		7ADE2DF90C30E51C63F080CA /* ScribblyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135FDECFDBDD71B3083BD7E1 /* ScribblyTests.swift */; };
 		9C5FB768E274881C5FBC6680 /* CanvasTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */; };
 		A2E18BD99FBE90245448D7D2 /* ScribblyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67872CF221E6546759FCF681 /* ScribblyApp.swift */; };
@@ -34,14 +40,20 @@
 /* Begin PBXFileReference section */
 		0964776D815475395514C8CA /* ColoringPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoringPage.swift; sourceTree = "<group>"; };
 		135FDECFDBDD71B3083BD7E1 /* ScribblyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribblyTests.swift; sourceTree = "<group>"; };
+		146768FD4EEBF23D80EE89FB /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		18FF606F81CA09FDEB1B90AF /* OpenAIImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIImageGenerator.swift; sourceTree = "<group>"; };
 		2C96C5D1D27EC4A930B414A4 /* PagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagePicker.swift; sourceTree = "<group>"; };
+		44FFCDE1C4452D1950E5A19C /* CreatePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePageView.swift; sourceTree = "<group>"; };
 		4B05D5CEF9D8C8C63E7E5078 /* PaintAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintAction.swift; sourceTree = "<group>"; };
 		50D4EF115C6ABA9C5E2B8D85 /* ScribblyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ScribblyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AA171B3F0D83D7DCF4F26C0 /* Scribbly.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Scribbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		62F5E2A08F85CE5F323C6452 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		67872CF221E6546759FCF681 /* ScribblyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribblyApp.swift; sourceTree = "<group>"; };
 		7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTransform.swift; sourceTree = "<group>"; };
+		8EBBD93E335FDCB7B8F212D3 /* GeneratedPageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedPageStore.swift; sourceTree = "<group>"; };
 		985C253C23016707173ECC69 /* LineArtRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineArtRenderer.swift; sourceTree = "<group>"; };
+		9D106AF24D08AD6CDEDD42C0 /* ParentGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentGateView.swift; sourceTree = "<group>"; };
+		AABE72A50AEE79DB57CEE667 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		B9D285D72FA169B223023CBC /* PaintEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintEngine.swift; sourceTree = "<group>"; };
 		C41EC7D275BF2721F9625209 /* ColoringPages */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ColoringPages; path = Scribbly/Resources/ColoringPages; sourceTree = SOURCE_ROOT; };
 		D3F302C3BD2C93E55A1EF291 /* ColoringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoringView.swift; sourceTree = "<group>"; };
@@ -53,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				3081DC208068EFAE8D4BAFE6 /* Coloring */,
+				47EA374A8252CB02518365AF /* Home */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -72,6 +85,16 @@
 				2C96C5D1D27EC4A930B414A4 /* PagePicker.swift */,
 			);
 			path = Coloring;
+			sourceTree = "<group>";
+		};
+		47EA374A8252CB02518365AF /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				44FFCDE1C4452D1950E5A19C /* CreatePageView.swift */,
+				AABE72A50AEE79DB57CEE667 /* HomeView.swift */,
+				9D106AF24D08AD6CDEDD42C0 /* ParentGateView.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		516A9C0A793F7B2F60C1F08B /* Scribbly */ = {
@@ -99,6 +122,7 @@
 		6E25426B1B4BB29601B0138D /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
+				8EBBD93E335FDCB7B8F212D3 /* GeneratedPageStore.swift */,
 				62F5E2A08F85CE5F323C6452 /* SessionStore.swift */,
 			);
 			path = Persistence;
@@ -116,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				67872CF221E6546759FCF681 /* ScribblyApp.swift */,
+				146768FD4EEBF23D80EE89FB /* Secrets.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -124,10 +149,19 @@
 			isa = PBXGroup;
 			children = (
 				579B8C6F3668E1517AE1F5C1 /* Canvas */,
+				B25C953E116B0299D1FCB518 /* Generation */,
 				2F131C06DD0E2269F142BF5B /* History */,
 				CBAAAC0A70F84CD27F2DFEA7 /* Rendering */,
 			);
 			path = ColoringEngine;
+			sourceTree = "<group>";
+		};
+		B25C953E116B0299D1FCB518 /* Generation */ = {
+			isa = PBXGroup;
+			children = (
+				18FF606F81CA09FDEB1B90AF /* OpenAIImageGenerator.swift */,
+			);
+			path = Generation;
 			sourceTree = "<group>";
 		};
 		B45D8403BB573026FB8DBC47 /* Models */ = {
@@ -165,7 +199,7 @@
 			path = Rendering;
 			sourceTree = "<group>";
 		};
-		"TEMP_E87FEE3A-452F-478F-9E31-8E0A24CDF5CE" /* Resources */ = {
+		"TEMP_3BF323DC-AF6F-4D46-8D9D-B84DD3840F09" /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -273,11 +307,17 @@
 				3B4041DF6B491E99CB753971 /* ColoringCanvas.swift in Sources */,
 				0730A57485B366283498BBF8 /* ColoringPage.swift in Sources */,
 				456EC4B1403282A538FB5B8A /* ColoringView.swift in Sources */,
+				7560755D1C7786FA0F6C8DB2 /* CreatePageView.swift in Sources */,
+				4785051F2454795CD17B75EF /* GeneratedPageStore.swift in Sources */,
+				2D2BFFB9B54BD1F957286F4B /* HomeView.swift in Sources */,
 				40855971BA694E1B53D176C6 /* LineArtRenderer.swift in Sources */,
+				5CB4801450C610996BB02717 /* OpenAIImageGenerator.swift in Sources */,
 				CD84D0152434A00D0613085C /* PagePicker.swift in Sources */,
 				62370277CD0595701845EC32 /* PaintAction.swift in Sources */,
 				44820FFD04679E08801077D2 /* PaintEngine.swift in Sources */,
+				2192C14D21F2C183AD1E5FBC /* ParentGateView.swift in Sources */,
 				A2E18BD99FBE90245448D7D2 /* ScribblyApp.swift in Sources */,
+				78CE16B5CAF1BC8CE6C3DE5F /* Secrets.swift in Sources */,
 				EA3E7BE4CA1CDFB0C612B9D2 /* SessionStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

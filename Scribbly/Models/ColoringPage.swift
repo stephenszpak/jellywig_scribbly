@@ -6,17 +6,21 @@ enum ColoringDifficulty: String, Codable, Sendable {
 
 enum ColoringPageSource: String, Codable, Sendable {
     case bundled
+    case aiGenerated
 }
 
 enum LineArtTemplate: String, Codable, Sendable {
     case happyFlower, friendlyFish, spaceAdventure
 }
 
-/// Where a page's line art comes from: drawn procedurally in code, or a
-/// bundled raster image (see Resources/ColoringPages).
+/// Where a page's line art comes from: drawn procedurally in code, a
+/// bundled raster image (see Resources/ColoringPages), a raster image the
+/// AI generator saved to disk, or no line art at all (Free Draw).
 enum LineArtSource: Codable, Hashable, Sendable {
     case procedural(LineArtTemplate)
     case image(String)
+    case generated(String)
+    case blank
 }
 
 struct ColoringPage: Identifiable, Codable, Hashable, Sendable {
@@ -32,5 +36,11 @@ struct ColoringPage: Identifiable, Codable, Hashable, Sendable {
         .init(id: UUID(uuidString: "33333333-3333-3333-3333-333333333333")!, title: "Space Adventure", difficulty: .intermediate, source: .bundled, lineArt: .procedural(.spaceAdventure))
     ]
 
-    static func sample(id: UUID) -> ColoringPage? { samples.first { $0.id == id } }
+    static let freeDraw = ColoringPage(id: UUID(uuidString: "99999999-9999-9999-9999-999999999999")!, title: "Free Draw", difficulty: .verySimple, source: .bundled, lineArt: .blank)
+
+    static func sample(id: UUID) -> ColoringPage? {
+        if id == freeDraw.id { return freeDraw }
+        if let match = samples.first(where: { $0.id == id }) { return match }
+        return GeneratedPageStore.shared.page(id: id)
+    }
 }

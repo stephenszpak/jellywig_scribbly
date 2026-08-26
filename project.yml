@@ -16,6 +16,7 @@ targets:
       - path: Scribbly
         excludes:
           - "Resources/ColoringPages/**"
+          - "**/*.example"
       - path: Scribbly/Resources/ColoringPages
         type: folder
         excludes:

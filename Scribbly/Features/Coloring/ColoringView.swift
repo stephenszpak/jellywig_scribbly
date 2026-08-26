@@ -48,7 +48,7 @@ struct ColoringView: View {
 
     private var topBar: some View {
         HStack(spacing: 18) {
-            BigButton(symbol: "chevron.left", label: "Pages", color: .indigo, action: choosePage)
+            BigButton(symbol: "chevron.left", label: "Home", color: .indigo, action: choosePage)
             Spacer()
             BigButton(symbol: "arrow.uturn.backward", label: "Undo", color: .blue, disabled: !session.canUndo) { session.undo() }
             BigButton(symbol: "arrow.uturn.forward", label: "Redo", color: .blue, disabled: !session.canRedo) { session.redo() }
