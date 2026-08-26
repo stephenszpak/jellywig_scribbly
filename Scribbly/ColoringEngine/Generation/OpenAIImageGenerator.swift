@@ -16,7 +16,14 @@ enum ImageGenerationError: LocalizedError {
     }
 }
 
-/// Generates coloring-book line art via OpenAI's image API (DALL-E 3).
+/// Generates coloring-book line art via OpenAI's image API (gpt-image-1).
+///
+/// dall-e-3 is no longer available via the Images API (as of testing this,
+/// the API returns "model does not exist" for it) - gpt-image-1 is the
+/// current model. It always returns b64_json (no response_format param,
+/// no url option) and uses low/medium/high/auto for quality rather than
+/// dall-e-3's standard/hd. Using "low" for now since it's the cheapest
+/// tier - bump this if line art quality turns out to need it.
 enum OpenAIImageGenerator {
     private static let styleGuide = "children's coloring book line art, pure black thick clean outlines, large simple enclosed shapes, no shading, no grayscale, no crosshatching, no filled black areas, no text, centered composition, isolated subject"
 
@@ -29,12 +36,11 @@ enum OpenAIImageGenerator {
         request.setValue("Bearer \(key)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try JSONEncoder().encode(RequestBody(
-            model: "dall-e-3",
+            model: "gpt-image-1",
             prompt: "\(subject), \(styleGuide)",
             size: "1024x1024",
-            quality: "standard",
-            n: 1,
-            response_format: "b64_json"
+            quality: "low",
+            n: 1
         ))
 
         let data: Data
@@ -61,7 +67,6 @@ enum OpenAIImageGenerator {
     private struct RequestBody: Encodable {
         let model, prompt, size, quality: String
         let n: Int
-        let response_format: String
     }
     private struct ImageResponse: Decodable { let data: [ImageDatum] }
     private struct ImageDatum: Decodable { let b64_json: String }
