@@ -1,0 +1,506 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0730A57485B366283498BBF8 /* ColoringPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0964776D815475395514C8CA /* ColoringPage.swift */; };
+		3B4041DF6B491E99CB753971 /* ColoringCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F865972B42D4F0743748A9C4 /* ColoringCanvas.swift */; };
+		40855971BA694E1B53D176C6 /* LineArtRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985C253C23016707173ECC69 /* LineArtRenderer.swift */; };
+		44820FFD04679E08801077D2 /* PaintEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D285D72FA169B223023CBC /* PaintEngine.swift */; };
+		456EC4B1403282A538FB5B8A /* ColoringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F302C3BD2C93E55A1EF291 /* ColoringView.swift */; };
+		62370277CD0595701845EC32 /* PaintAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B05D5CEF9D8C8C63E7E5078 /* PaintAction.swift */; };
+		7ADE2DF90C30E51C63F080CA /* ScribblyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135FDECFDBDD71B3083BD7E1 /* ScribblyTests.swift */; };
+		9C5FB768E274881C5FBC6680 /* CanvasTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */; };
+		A2E18BD99FBE90245448D7D2 /* ScribblyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67872CF221E6546759FCF681 /* ScribblyApp.swift */; };
+		CD84D0152434A00D0613085C /* PagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C96C5D1D27EC4A930B414A4 /* PagePicker.swift */; };
+		EA3E7BE4CA1CDFB0C612B9D2 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F5E2A08F85CE5F323C6452 /* SessionStore.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8CDC7B90E34719629B8DD734 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8134A96B15363E7509BF6E3E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2D04CF7E7505EDAB42FD4B7C;
+			remoteInfo = Scribbly;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0964776D815475395514C8CA /* ColoringPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoringPage.swift; sourceTree = "<group>"; };
+		135FDECFDBDD71B3083BD7E1 /* ScribblyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribblyTests.swift; sourceTree = "<group>"; };
+		2C96C5D1D27EC4A930B414A4 /* PagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagePicker.swift; sourceTree = "<group>"; };
+		4B05D5CEF9D8C8C63E7E5078 /* PaintAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintAction.swift; sourceTree = "<group>"; };
+		50D4EF115C6ABA9C5E2B8D85 /* ScribblyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ScribblyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AA171B3F0D83D7DCF4F26C0 /* Scribbly.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Scribbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		62F5E2A08F85CE5F323C6452 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		67872CF221E6546759FCF681 /* ScribblyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribblyApp.swift; sourceTree = "<group>"; };
+		7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTransform.swift; sourceTree = "<group>"; };
+		985C253C23016707173ECC69 /* LineArtRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineArtRenderer.swift; sourceTree = "<group>"; };
+		B9D285D72FA169B223023CBC /* PaintEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintEngine.swift; sourceTree = "<group>"; };
+		D3F302C3BD2C93E55A1EF291 /* ColoringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoringView.swift; sourceTree = "<group>"; };
+		F865972B42D4F0743748A9C4 /* ColoringCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoringCanvas.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		15776B0FF8E042EF13D7DB03 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				3081DC208068EFAE8D4BAFE6 /* Coloring */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		2F131C06DD0E2269F142BF5B /* History */ = {
+			isa = PBXGroup;
+			children = (
+				4B05D5CEF9D8C8C63E7E5078 /* PaintAction.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		3081DC208068EFAE8D4BAFE6 /* Coloring */ = {
+			isa = PBXGroup;
+			children = (
+				D3F302C3BD2C93E55A1EF291 /* ColoringView.swift */,
+				2C96C5D1D27EC4A930B414A4 /* PagePicker.swift */,
+			);
+			path = Coloring;
+			sourceTree = "<group>";
+		};
+		516A9C0A793F7B2F60C1F08B /* Scribbly */ = {
+			isa = PBXGroup;
+			children = (
+				77AD250AD93D7B860878A888 /* App */,
+				99F9039F02A5318D3CDE54D7 /* ColoringEngine */,
+				15776B0FF8E042EF13D7DB03 /* Features */,
+				B45D8403BB573026FB8DBC47 /* Models */,
+				6E25426B1B4BB29601B0138D /* Persistence */,
+			);
+			path = Scribbly;
+			sourceTree = "<group>";
+		};
+		579B8C6F3668E1517AE1F5C1 /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */,
+				F865972B42D4F0743748A9C4 /* ColoringCanvas.swift */,
+				B9D285D72FA169B223023CBC /* PaintEngine.swift */,
+			);
+			path = Canvas;
+			sourceTree = "<group>";
+		};
+		6E25426B1B4BB29601B0138D /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				62F5E2A08F85CE5F323C6452 /* SessionStore.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		72297B83FD4A93A1D4E779EC /* ScribblyTests */ = {
+			isa = PBXGroup;
+			children = (
+				135FDECFDBDD71B3083BD7E1 /* ScribblyTests.swift */,
+			);
+			path = ScribblyTests;
+			sourceTree = "<group>";
+		};
+		77AD250AD93D7B860878A888 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				67872CF221E6546759FCF681 /* ScribblyApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		99F9039F02A5318D3CDE54D7 /* ColoringEngine */ = {
+			isa = PBXGroup;
+			children = (
+				579B8C6F3668E1517AE1F5C1 /* Canvas */,
+				2F131C06DD0E2269F142BF5B /* History */,
+				CBAAAC0A70F84CD27F2DFEA7 /* Rendering */,
+			);
+			path = ColoringEngine;
+			sourceTree = "<group>";
+		};
+		B45D8403BB573026FB8DBC47 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0964776D815475395514C8CA /* ColoringPage.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BE3DC3F0634B30434112BAAE = {
+			isa = PBXGroup;
+			children = (
+				516A9C0A793F7B2F60C1F08B /* Scribbly */,
+				72297B83FD4A93A1D4E779EC /* ScribblyTests */,
+				CA17213EF3BF1743EDB685C5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CA17213EF3BF1743EDB685C5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5AA171B3F0D83D7DCF4F26C0 /* Scribbly.app */,
+				50D4EF115C6ABA9C5E2B8D85 /* ScribblyTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CBAAAC0A70F84CD27F2DFEA7 /* Rendering */ = {
+			isa = PBXGroup;
+			children = (
+				985C253C23016707173ECC69 /* LineArtRenderer.swift */,
+			);
+			path = Rendering;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2D04CF7E7505EDAB42FD4B7C /* Scribbly */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 517D91CBE49B78DD4F756199 /* Build configuration list for PBXNativeTarget "Scribbly" */;
+			buildPhases = (
+				DF2ECA225C663B0A1A8E6C0C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Scribbly;
+			packageProductDependencies = (
+			);
+			productName = Scribbly;
+			productReference = 5AA171B3F0D83D7DCF4F26C0 /* Scribbly.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9883EA0EFDFB2F8E98D2DDB1 /* ScribblyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03C5D84DA1B0FA7B222E3CE9 /* Build configuration list for PBXNativeTarget "ScribblyTests" */;
+			buildPhases = (
+				21BC502BE654B3920AB5A628 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E172125E98EFC783CBF81A94 /* PBXTargetDependency */,
+			);
+			name = ScribblyTests;
+			packageProductDependencies = (
+			);
+			productName = ScribblyTests;
+			productReference = 50D4EF115C6ABA9C5E2B8D85 /* ScribblyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8134A96B15363E7509BF6E3E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					2D04CF7E7505EDAB42FD4B7C = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 8F5F40D95F5F9BD3473CACD6 /* Build configuration list for PBXProject "Scribbly" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = BE3DC3F0634B30434112BAAE;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = CA17213EF3BF1743EDB685C5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2D04CF7E7505EDAB42FD4B7C /* Scribbly */,
+				9883EA0EFDFB2F8E98D2DDB1 /* ScribblyTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		21BC502BE654B3920AB5A628 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7ADE2DF90C30E51C63F080CA /* ScribblyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DF2ECA225C663B0A1A8E6C0C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C5FB768E274881C5FBC6680 /* CanvasTransform.swift in Sources */,
+				3B4041DF6B491E99CB753971 /* ColoringCanvas.swift in Sources */,
+				0730A57485B366283498BBF8 /* ColoringPage.swift in Sources */,
+				456EC4B1403282A538FB5B8A /* ColoringView.swift in Sources */,
+				40855971BA694E1B53D176C6 /* LineArtRenderer.swift in Sources */,
+				CD84D0152434A00D0613085C /* PagePicker.swift in Sources */,
+				62370277CD0595701845EC32 /* PaintAction.swift in Sources */,
+				44820FFD04679E08801077D2 /* PaintEngine.swift in Sources */,
+				A2E18BD99FBE90245448D7D2 /* ScribblyApp.swift in Sources */,
+				EA3E7BE4CA1CDFB0C612B9D2 /* SessionStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E172125E98EFC783CBF81A94 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2D04CF7E7505EDAB42FD4B7C /* Scribbly */;
+			targetProxy = 8CDC7B90E34719629B8DD734 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		05EEC658157F40DB9FA9467C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Scribbly;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.scribbly.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		070A5747BF20265EBF8E2777 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.scribbly.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Scribbly.app/Scribbly";
+			};
+			name = Debug;
+		};
+		205F949319D0DFD995087BD7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Scribbly;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.scribbly.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2BC52A332BF808460A0D20DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.scribbly.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Scribbly.app/Scribbly";
+			};
+			name = Release;
+		};
+		D02BE75F7521E1926620C7A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		F19D54F62DDED3C63BCF65CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		03C5D84DA1B0FA7B222E3CE9 /* Build configuration list for PBXNativeTarget "ScribblyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				070A5747BF20265EBF8E2777 /* Debug */,
+				2BC52A332BF808460A0D20DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		517D91CBE49B78DD4F756199 /* Build configuration list for PBXNativeTarget "Scribbly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				205F949319D0DFD995087BD7 /* Debug */,
+				05EEC658157F40DB9FA9467C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8F5F40D95F5F9BD3473CACD6 /* Build configuration list for PBXProject "Scribbly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D02BE75F7521E1926620C7A3 /* Debug */,
+				F19D54F62DDED3C63BCF65CE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8134A96B15363E7509BF6E3E /* Project object */;
+}
