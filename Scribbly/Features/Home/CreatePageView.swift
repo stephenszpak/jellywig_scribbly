@@ -15,6 +15,30 @@ struct CreatePageFlow: View {
     }
 }
 
+private struct SubjectPreset {
+    let title: String
+    let emoji: String
+    let subject: String
+    let color: Color
+}
+
+private let subjectPresets: [SubjectPreset] = [
+    SubjectPreset(title: "Dinosaur", emoji: "🦕", subject: "a friendly dinosaur", color: .green),
+    SubjectPreset(title: "Princess", emoji: "👑", subject: "a magical princess", color: .pink),
+    SubjectPreset(title: "Truck", emoji: "🚚", subject: "a big truck", color: .orange),
+    SubjectPreset(title: "Ocean", emoji: "🐠", subject: "an ocean scene with fish", color: .teal),
+    SubjectPreset(title: "Space", emoji: "🚀", subject: "outer space with a rocket and stars", color: .indigo),
+]
+
+/// A larger pool for "Surprise Me" so it doesn't just repeat the presets.
+private let surpriseSubjects: [String] = [
+    "a friendly dinosaur", "a magical princess", "a big truck", "an ocean scene with fish",
+    "outer space with a rocket and stars", "a cute unicorn", "a friendly robot", "a playful puppy",
+    "a sleepy kitten", "a castle with towers", "a big rainbow", "a butterfly", "a race car",
+    "a friendly dragon", "a happy turtle", "a smiling elephant", "a superhero", "a mermaid",
+    "a bunch of balloons", "a friendly shark",
+]
+
 struct CreatePageView: View {
     let onCreated: (ColoringPage) -> Void
     @Environment(\.dismiss) private var dismiss
@@ -26,37 +50,74 @@ struct CreatePageView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                Text("What should we draw?").font(.title2.bold())
-                TextField("a friendly dinosaur", text: $subject)
-                    .textFieldStyle(.roundedBorder)
-                    .font(.title3)
-                    .padding(.horizontal, 30)
-                    .disabled(isGenerating)
-                    .submitLabel(.go)
-                    .onSubmit { if canGenerate { generate() } }
+            ScrollView {
+                VStack(spacing: 24) {
+                    Text("What should we draw?").font(.title2.bold())
 
-                if let errorMessage {
-                    Text(errorMessage)
-                        .foregroundStyle(.red)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 30)
-                }
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 130), spacing: 14)], spacing: 14) {
+                        ForEach(subjectPresets, id: \.title) { preset in
+                            Button { generate(subject: preset.subject) } label: {
+                                VStack(spacing: 6) {
+                                    Text(preset.emoji).font(.system(size: 40))
+                                    Text(preset.title).font(.headline).foregroundStyle(.white)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(preset.color, in: RoundedRectangle(cornerRadius: 20))
+                            }
+                            .buttonStyle(.plain)
+                            .disabled(isGenerating)
+                        }
+                    }
+                    .padding(.horizontal, 24)
 
-                if isGenerating {
-                    ProgressView("Drawing your picture...")
-                } else {
-                    Button("Generate") { generate() }
-                        .font(.title3.bold())
+                    Button { generate(subject: surpriseSubjects.randomElement() ?? "a friendly dinosaur") } label: {
+                        HStack(spacing: 10) {
+                            Text("🎲").font(.system(size: 28))
+                            Text("Surprise Me!").font(.title3.bold())
+                        }
                         .foregroundStyle(.white)
-                        .padding(.horizontal, 40)
-                        .padding(.vertical, 14)
-                        .background(canGenerate ? Color.indigo : Color.gray.opacity(0.4), in: Capsule())
-                        .disabled(!canGenerate)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(Color.purple, in: RoundedRectangle(cornerRadius: 20))
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(isGenerating)
+                    .padding(.horizontal, 24)
+
+                    HStack { Rectangle().fill(.quaternary).frame(height: 1); Text("or type your own").font(.caption).foregroundStyle(.secondary); Rectangle().fill(.quaternary).frame(height: 1) }
+                        .padding(.horizontal, 24)
+
+                    TextField("a friendly dinosaur", text: $subject)
+                        .textFieldStyle(.roundedBorder)
+                        .font(.title3)
+                        .padding(.horizontal, 30)
+                        .disabled(isGenerating)
+                        .submitLabel(.go)
+                        .onSubmit { if canGenerate { generate(subject: subject) } }
+
+                    if let errorMessage {
+                        Text(errorMessage)
+                            .foregroundStyle(.red)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 30)
+                    }
+
+                    if isGenerating {
+                        ProgressView("Drawing your picture...")
+                    } else {
+                        Button("Generate") { generate(subject: subject) }
+                            .font(.title3.bold())
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 40)
+                            .padding(.vertical, 14)
+                            .background(canGenerate ? Color.indigo : Color.gray.opacity(0.4), in: Capsule())
+                            .disabled(!canGenerate)
+                    }
                 }
-                Spacer()
+                .padding(.top, 30)
+                .padding(.bottom, 30)
             }
-            .padding(.top, 40)
             .navigationTitle("Create a Page")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -67,14 +128,15 @@ struct CreatePageView: View {
         }
     }
 
-    private func generate() {
+    private func generate(subject requestedSubject: String) {
+        let trimmed = requestedSubject.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, !isGenerating else { return }
         isGenerating = true
         errorMessage = nil
-        let requestedSubject = subject
         Task {
             do {
-                let data = try await OpenAIImageGenerator.generatePage(subject: requestedSubject)
-                let page = try GeneratedPageStore.shared.add(title: requestedSubject, pngData: data)
+                let data = try await OpenAIImageGenerator.generatePage(subject: trimmed)
+                let page = try GeneratedPageStore.shared.add(title: trimmed, pngData: data)
                 isGenerating = false
                 onCreated(page)
             } catch {
