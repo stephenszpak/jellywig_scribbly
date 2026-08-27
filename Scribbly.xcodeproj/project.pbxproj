@@ -10,6 +10,7 @@
 		0730A57485B366283498BBF8 /* ColoringPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0964776D815475395514C8CA /* ColoringPage.swift */; };
 		2192C14D21F2C183AD1E5FBC /* ParentGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D106AF24D08AD6CDEDD42C0 /* ParentGateView.swift */; };
 		2D2BFFB9B54BD1F957286F4B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE72A50AEE79DB57CEE667 /* HomeView.swift */; };
+		2EC7A9E0E12F3CF56BC82CFF /* celebration.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2808930224E5C98C3DB310D7 /* celebration.wav */; };
 		3B4041DF6B491E99CB753971 /* ColoringCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F865972B42D4F0743748A9C4 /* ColoringCanvas.swift */; };
 		40855971BA694E1B53D176C6 /* LineArtRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985C253C23016707173ECC69 /* LineArtRenderer.swift */; };
 		44820FFD04679E08801077D2 /* PaintEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D285D72FA169B223023CBC /* PaintEngine.swift */; };
@@ -22,9 +23,13 @@
 		7560755D1C7786FA0F6C8DB2 /* CreatePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FFCDE1C4452D1950E5A19C /* CreatePageView.swift */; };
 		78CE16B5CAF1BC8CE6C3DE5F /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146768FD4EEBF23D80EE89FB /* Secrets.swift */; };
 		7ADE2DF90C30E51C63F080CA /* ScribblyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135FDECFDBDD71B3083BD7E1 /* ScribblyTests.swift */; };
+		8D758A329C53A52F0B72532B /* fill_chime.wav in Resources */ = {isa = PBXBuildFile; fileRef = D1F443C740D74639ADC88D6A /* fill_chime.wav */; };
 		9C5FB768E274881C5FBC6680 /* CanvasTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */; };
 		A2E18BD99FBE90245448D7D2 /* ScribblyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67872CF221E6546759FCF681 /* ScribblyApp.swift */; };
+		A3D50DD5CD6E1E136EEEF0C1 /* ConfettiOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00026D85ACEE8B01D98BEC12 /* ConfettiOverlay.swift */; };
 		CD84D0152434A00D0613085C /* PagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C96C5D1D27EC4A930B414A4 /* PagePicker.swift */; };
+		D0289C1E53BD41B5E8C9FEFB /* SoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F09BAEF59957BCDCFEC5049 /* SoundPlayer.swift */; };
+		D7A419AB96323A91E6F23CC1 /* StickerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603798628709FC2D0A31506B /* StickerRenderer.swift */; };
 		EA3E7BE4CA1CDFB0C612B9D2 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F5E2A08F85CE5F323C6452 /* SessionStore.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,15 +44,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00026D85ACEE8B01D98BEC12 /* ConfettiOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiOverlay.swift; sourceTree = "<group>"; };
 		0964776D815475395514C8CA /* ColoringPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoringPage.swift; sourceTree = "<group>"; };
 		135FDECFDBDD71B3083BD7E1 /* ScribblyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribblyTests.swift; sourceTree = "<group>"; };
 		146768FD4EEBF23D80EE89FB /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		18FF606F81CA09FDEB1B90AF /* OpenAIImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIImageGenerator.swift; sourceTree = "<group>"; };
+		2808930224E5C98C3DB310D7 /* celebration.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = celebration.wav; sourceTree = "<group>"; };
 		2C96C5D1D27EC4A930B414A4 /* PagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagePicker.swift; sourceTree = "<group>"; };
+		2F09BAEF59957BCDCFEC5049 /* SoundPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundPlayer.swift; sourceTree = "<group>"; };
 		44FFCDE1C4452D1950E5A19C /* CreatePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePageView.swift; sourceTree = "<group>"; };
 		4B05D5CEF9D8C8C63E7E5078 /* PaintAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintAction.swift; sourceTree = "<group>"; };
 		50D4EF115C6ABA9C5E2B8D85 /* ScribblyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ScribblyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AA171B3F0D83D7DCF4F26C0 /* Scribbly.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Scribbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		603798628709FC2D0A31506B /* StickerRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRenderer.swift; sourceTree = "<group>"; };
 		62F5E2A08F85CE5F323C6452 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		67872CF221E6546759FCF681 /* ScribblyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribblyApp.swift; sourceTree = "<group>"; };
 		7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTransform.swift; sourceTree = "<group>"; };
@@ -58,6 +67,7 @@
 		AABE72A50AEE79DB57CEE667 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		B9D285D72FA169B223023CBC /* PaintEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintEngine.swift; sourceTree = "<group>"; };
 		C41EC7D275BF2721F9625209 /* ColoringPages */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ColoringPages; path = Scribbly/Resources/ColoringPages; sourceTree = SOURCE_ROOT; };
+		D1F443C740D74639ADC88D6A /* fill_chime.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = fill_chime.wav; sourceTree = "<group>"; };
 		D3F302C3BD2C93E55A1EF291 /* ColoringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoringView.swift; sourceTree = "<group>"; };
 		F865972B42D4F0743748A9C4 /* ColoringCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoringCanvas.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				D3F302C3BD2C93E55A1EF291 /* ColoringView.swift */,
+				00026D85ACEE8B01D98BEC12 /* ConfettiOverlay.swift */,
 				2C96C5D1D27EC4A930B414A4 /* PagePicker.swift */,
 			);
 			path = Coloring;
@@ -118,6 +129,7 @@
 				7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */,
 				F865972B42D4F0743748A9C4 /* ColoringCanvas.swift */,
 				B9D285D72FA169B223023CBC /* PaintEngine.swift */,
+				603798628709FC2D0A31506B /* StickerRenderer.swift */,
 			);
 			path = Canvas;
 			sourceTree = "<group>";
@@ -151,6 +163,7 @@
 		99F9039F02A5318D3CDE54D7 /* ColoringEngine */ = {
 			isa = PBXGroup;
 			children = (
+				D4F13994CEF1187E0842A1A1 /* Audio */,
 				579B8C6F3668E1517AE1F5C1 /* Canvas */,
 				B25C953E116B0299D1FCB518 /* Generation */,
 				2F131C06DD0E2269F142BF5B /* History */,
@@ -179,8 +192,18 @@
 			isa = PBXGroup;
 			children = (
 				93EBD17AAEA95F185908FF3E /* Assets.xcassets */,
+				BD7037109B417BFD68BA3590 /* Sounds */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		BD7037109B417BFD68BA3590 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				2808930224E5C98C3DB310D7 /* celebration.wav */,
+				D1F443C740D74639ADC88D6A /* fill_chime.wav */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 		BE3DC3F0634B30434112BAAE = {
@@ -208,6 +231,14 @@
 				985C253C23016707173ECC69 /* LineArtRenderer.swift */,
 			);
 			path = Rendering;
+			sourceTree = "<group>";
+		};
+		D4F13994CEF1187E0842A1A1 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				2F09BAEF59957BCDCFEC5049 /* SoundPlayer.swift */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,6 +321,8 @@
 			files = (
 				65B03FA41594FD88AE0D8477 /* Assets.xcassets in Resources */,
 				6912D54010883E7C0518F932 /* ColoringPages in Resources */,
+				2EC7A9E0E12F3CF56BC82CFF /* celebration.wav in Resources */,
+				8D758A329C53A52F0B72532B /* fill_chime.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +345,7 @@
 				3B4041DF6B491E99CB753971 /* ColoringCanvas.swift in Sources */,
 				0730A57485B366283498BBF8 /* ColoringPage.swift in Sources */,
 				456EC4B1403282A538FB5B8A /* ColoringView.swift in Sources */,
+				A3D50DD5CD6E1E136EEEF0C1 /* ConfettiOverlay.swift in Sources */,
 				7560755D1C7786FA0F6C8DB2 /* CreatePageView.swift in Sources */,
 				4785051F2454795CD17B75EF /* GeneratedPageStore.swift in Sources */,
 				2D2BFFB9B54BD1F957286F4B /* HomeView.swift in Sources */,
@@ -324,6 +358,8 @@
 				A2E18BD99FBE90245448D7D2 /* ScribblyApp.swift in Sources */,
 				78CE16B5CAF1BC8CE6C3DE5F /* Secrets.swift in Sources */,
 				EA3E7BE4CA1CDFB0C612B9D2 /* SessionStore.swift in Sources */,
+				D0289C1E53BD41B5E8C9FEFB /* SoundPlayer.swift in Sources */,
+				D7A419AB96323A91E6F23CC1 /* StickerRenderer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

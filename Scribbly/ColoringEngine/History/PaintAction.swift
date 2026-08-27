@@ -2,13 +2,21 @@ import CoreGraphics
 import UIKit
 
 enum DrawingTool: String, Codable, CaseIterable, Sendable {
-    case crayon, marker, fill, eraser
+    case crayon, marker, fill, sticker, eraser
 
     var title: String {
-        switch self { case .crayon: "Crayon"; case .marker: "Marker"; case .fill: "Fill"; case .eraser: "Eraser" }
+        switch self { case .crayon: "Crayon"; case .marker: "Marker"; case .fill: "Fill"; case .sticker: "Sticker"; case .eraser: "Eraser" }
     }
     var symbol: String {
-        switch self { case .crayon: "pencil"; case .marker: "highlighter"; case .fill: "paint.bucket.classic"; case .eraser: "eraser.fill" }
+        switch self { case .crayon: "pencil"; case .marker: "highlighter"; case .fill: "paint.bucket.classic"; case .sticker: "star.fill"; case .eraser: "eraser.fill" }
+    }
+}
+
+enum StickerSymbol: String, Codable, CaseIterable, Sendable {
+    case star, heart, sun, paw
+
+    var systemImage: String {
+        switch self { case .star: "star.fill"; case .heart: "heart.fill"; case .sun: "sun.max.fill"; case .paw: "pawprint.fill" }
     }
 }
 
@@ -32,6 +40,7 @@ struct PaintPoint: Codable, Hashable, Sendable {
 enum PaintAction: Codable, Hashable, Sendable {
     case stroke(points: [PaintPoint], color: RGBAColor, width: CGFloat, tool: DrawingTool)
     case fill(seed: PaintPoint, color: RGBAColor)
+    case sticker(position: PaintPoint, symbol: StickerSymbol, color: RGBAColor, scale: CGFloat)
 }
 
 struct ActionHistory: Sendable {

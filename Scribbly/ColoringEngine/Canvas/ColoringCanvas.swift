@@ -6,9 +6,12 @@ final class ColoringSession: ObservableObject {
     @Published var selectedColorIndex: Int
     @Published var tool: DrawingTool
     @Published var brushSize: BrushSize
+    @Published var selectedSticker: StickerSymbol = .star
     @Published private(set) var canUndo = false
     @Published private(set) var canRedo = false
     @Published var resetZoomToken = 0
+    @Published private(set) var didComplete = false
+    private var hasCelebrated = false
     let page: ColoringPage
     let engine: PaintEngine
 
@@ -23,9 +26,17 @@ final class ColoringSession: ObservableObject {
     }
 
     var color: RGBAColor { Palette.colors[selectedColorIndex].rgba }
-    func changed() { updateHistoryState(); persist() }
+    func changed() {
+        updateHistoryState(); persist()
+        if !hasCelebrated, engine.coloredFraction > 0.9 {
+            hasCelebrated = true
+            didComplete = true
+            SoundPlayer.shared.play(.celebration)
+        }
+    }
     func undo() { engine.undo(); changed() }
     func redo() { engine.redo(); changed() }
+    func clearAll() { engine.clearAll(); hasCelebrated = false; changed() }
     func persist() {
         SessionStore.shared.save(.init(pageID: page.id, actions: engine.actions, selectedColor: selectedColorIndex, tool: tool, brushSize: brushSize))
     }
@@ -37,14 +48,14 @@ struct ColoringCanvas: UIViewRepresentable {
 
     func makeUIView(context: Context) -> CanvasScrollView {
         let view = CanvasScrollView(engine: session.engine)
-        view.artwork.configuration = { (session.color, session.brushSize.width, session.tool) }
+        view.artwork.configuration = { (session.color, session.brushSize.width, session.tool, session.selectedSticker) }
         view.artwork.onAction = { session.changed() }
         view.onTwoFingerUndo = { session.undo() }
         return view
     }
 
     func updateUIView(_ view: CanvasScrollView, context: Context) {
-        view.artwork.configuration = { (session.color, session.brushSize.width, session.tool) }
+        view.artwork.configuration = { (session.color, session.brushSize.width, session.tool, session.selectedSticker) }
         view.artwork.setNeedsDisplay()
         if context.coordinator.lastResetToken != session.resetZoomToken {
             context.coordinator.lastResetToken = session.resetZoomToken; view.resetZoom(animated: true)
@@ -97,7 +108,7 @@ final class CanvasScrollView: UIScrollView, UIScrollViewDelegate {
 
 final class ArtworkView: UIView {
     let engine: PaintEngine
-    var configuration: () -> (RGBAColor, CGFloat, DrawingTool) = { (.init(red: 1, green: 0, blue: 0, alpha: 1), 0.03, .crayon) }
+    var configuration: () -> (RGBAColor, CGFloat, DrawingTool, StickerSymbol) = { (.init(red: 1, green: 0, blue: 0, alpha: 1), 0.03, .crayon, .star) }
     var onAction: () -> Void = {}
     private var drawingTouch: UITouch?
 
@@ -119,7 +130,15 @@ final class ArtworkView: UIView {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard event?.allTouches?.count == 1, let touch = touches.first else { cancelDrawing(); return }
         let point = normalized(touch.location(in: self)); let config = configuration()
-        if config.2 == .fill { engine.fill(at: point, color: config.0); setNeedsDisplay(); onAction(); return }
+        if config.2 == .fill {
+            engine.fill(at: point, color: config.0); setNeedsDisplay(); onAction()
+            SoundPlayer.shared.play(.fill)
+            return
+        }
+        if config.2 == .sticker {
+            engine.placeSticker(config.3, at: point, color: config.0); setNeedsDisplay(); onAction()
+            return
+        }
         drawingTouch = touch; engine.beginStroke(at: point, color: config.0, width: config.1, tool: config.2); setNeedsDisplay()
     }
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

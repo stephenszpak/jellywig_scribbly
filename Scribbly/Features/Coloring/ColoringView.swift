@@ -23,20 +23,26 @@ enum Palette {
 
 struct ColoringView: View {
     @StateObject private var session: ColoringSession
+    @State private var showingClearConfirm = false
     let choosePage: () -> Void
 
     init(page: ColoringPage, choosePage: @escaping () -> Void) {
         _session = StateObject(wrappedValue: ColoringSession(page: page)); self.choosePage = choosePage
     }
 
+    private var isFreeDraw: Bool { session.page.lineArt == .blank }
+
     var body: some View {
         GeometryReader { geometry in
-            VStack(spacing: 0) {
-                topBar
-                ColoringCanvas(session: session)
-                    .accessibilityLabel("Coloring page")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                controls(compact: geometry.size.height < 750)
+            ZStack {
+                VStack(spacing: 0) {
+                    topBar
+                    ColoringCanvas(session: session)
+                        .accessibilityLabel("Coloring page")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    controls(compact: geometry.size.height < 750)
+                }
+                ConfettiOverlay(trigger: session.didComplete)
             }
             .background(Color(red: 0.93, green: 0.95, blue: 0.98))
         }
@@ -44,12 +50,19 @@ struct ColoringView: View {
         .onChange(of: session.selectedColorIndex) { _, _ in session.persist() }
         .onChange(of: session.tool) { _, _ in session.persist() }
         .onChange(of: session.brushSize) { _, _ in session.persist() }
+        .confirmationDialog("Clear this page?", isPresented: $showingClearConfirm, titleVisibility: .visible) {
+            Button("Clear", role: .destructive) { session.clearAll() }
+            Button("Cancel", role: .cancel) {}
+        }
     }
 
     private var topBar: some View {
         HStack(spacing: 18) {
             BigButton(symbol: "chevron.left", label: "Home", color: .indigo, action: choosePage)
             Spacer()
+            if isFreeDraw {
+                BigButton(symbol: "trash", label: "Clear", color: .red, disabled: !session.canUndo) { showingClearConfirm = true }
+            }
             BigButton(symbol: "arrow.uturn.backward", label: "Undo", color: .blue, disabled: !session.canUndo) { session.undo() }
             BigButton(symbol: "arrow.uturn.forward", label: "Redo", color: .blue, disabled: !session.canRedo) { session.redo() }
             BigButton(symbol: "arrow.down.right.and.arrow.up.left", label: "Fit", color: .teal) { session.resetZoomToken += 1 }
@@ -65,14 +78,28 @@ struct ColoringView: View {
                     ToolButton(tool: tool, selected: session.tool == tool) { session.tool = tool }
                 }
                 Spacer(minLength: 8)
-                ForEach(BrushSize.allCases, id: \.self) { size in
-                    Button { session.brushSize = size } label: {
-                        Circle().fill(session.tool == .eraser ? Color.gray : Palette.colors[session.selectedColorIndex].color)
-                            .frame(width: size.dot, height: size.dot).frame(width: 48, height: 48)
-                            .background(session.brushSize == size ? Color.indigo.opacity(0.14) : Color.clear, in: Circle())
-                            .overlay(Circle().stroke(session.brushSize == size ? Color.indigo : Color.clear, lineWidth: 3))
+                if session.tool == .sticker {
+                    ForEach(StickerSymbol.allCases, id: \.self) { sticker in
+                        Button { session.selectedSticker = sticker } label: {
+                            Image(systemName: sticker.systemImage)
+                                .font(.system(size: 22, weight: .bold))
+                                .foregroundStyle(Palette.colors[session.selectedColorIndex].color)
+                                .frame(width: 48, height: 48)
+                                .background(session.selectedSticker == sticker ? Color.indigo.opacity(0.14) : Color.clear, in: Circle())
+                                .overlay(Circle().stroke(session.selectedSticker == sticker ? Color.indigo : Color.clear, lineWidth: 3))
+                        }
+                        .buttonStyle(.plain).accessibilityLabel("\(sticker.rawValue) sticker")
                     }
-                    .buttonStyle(.plain).accessibilityLabel("\(size.rawValue) brush")
+                } else {
+                    ForEach(BrushSize.allCases, id: \.self) { size in
+                        Button { session.brushSize = size } label: {
+                            Circle().fill(session.tool == .eraser ? Color.gray : Palette.colors[session.selectedColorIndex].color)
+                                .frame(width: size.dot, height: size.dot).frame(width: 48, height: 48)
+                                .background(session.brushSize == size ? Color.indigo.opacity(0.14) : Color.clear, in: Circle())
+                                .overlay(Circle().stroke(session.brushSize == size ? Color.indigo : Color.clear, lineWidth: 3))
+                        }
+                        .buttonStyle(.plain).accessibilityLabel("\(size.rawValue) brush")
+                    }
                 }
             }
             .padding(.horizontal, 18)

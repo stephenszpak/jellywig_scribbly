@@ -6,6 +6,7 @@ final class PaintEngine {
     private(set) var history = ActionHistory()
     private let context: CGContext
     private let mask: [UInt8]
+    private let fillablePixelCount: Int
     private var activePoints: [CGPoint] = []
     private var activeColor = RGBAColor(red: 1, green: 0, blue: 0, alpha: 1)
     private var activeWidth: CGFloat = BrushSize.medium.width
@@ -17,6 +18,7 @@ final class PaintEngine {
         context = CGContext(data: nil, width: Self.pixelSize, height: Self.pixelSize, bitsPerComponent: 8, bytesPerRow: Self.pixelSize * 4, space: colorSpace, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
         context.translateBy(x: 0, y: CGFloat(Self.pixelSize)); context.scaleBy(x: 1, y: -1)
         mask = Self.makeMask(for: page)
+        fillablePixelCount = mask.reduce(0) { $0 + (1 - Int($1)) }
         history.restore(restoredActions)
         rebuild()
     }
@@ -64,8 +66,29 @@ final class PaintEngine {
         apply(action); history.add(action)
     }
 
+    func placeSticker(_ symbol: StickerSymbol, at point: CGPoint, color: RGBAColor) {
+        let action = PaintAction.sticker(position: PaintPoint(point), symbol: symbol, color: color, scale: 0.16)
+        apply(action); history.add(action)
+    }
+
     func undo() { guard history.undo() != nil else { return }; rebuild() }
     func redo() { guard history.redo() != nil else { return }; rebuild() }
+
+    func clearAll() {
+        history.restore([])
+        rebuild()
+    }
+
+    /// Fraction (0...1) of the page's fillable area that currently has any
+    /// paint on it. Used to trigger a completion celebration.
+    var coloredFraction: CGFloat {
+        guard fillablePixelCount > 0, let bytes = context.data?.assumingMemoryBound(to: UInt8.self) else { return 0 }
+        var colored = 0
+        for index in 0..<(Self.pixelSize * Self.pixelSize) where mask[index] == 0 {
+            if bytes[index * 4 + 3] > 10 { colored += 1 }
+        }
+        return CGFloat(colored) / CGFloat(fillablePixelCount)
+    }
 
     private func rebuild() {
         context.clear(CGRect(x: 0, y: 0, width: Self.pixelSize, height: Self.pixelSize))
@@ -79,7 +102,20 @@ final class PaintEngine {
             if points.count == 1 { drawSegment(from: first, to: first, color: color, width: width, tool: tool) }
             for pair in zip(points, points.dropFirst()) { drawSegment(from: pair.0.cgPoint, to: pair.1.cgPoint, color: color, width: width, tool: tool) }
         case let .fill(seed, color): floodFill(seed.cgPoint, color: color)
+        case let .sticker(position, symbol, color, scale): drawSticker(symbol, at: position.cgPoint, color: color, scale: scale)
         }
+    }
+
+    private func drawSticker(_ symbol: StickerSymbol, at point: CGPoint, color: RGBAColor, scale: CGFloat) {
+        let canvasScale = CGFloat(Self.pixelSize)
+        let center = CGPoint(x: point.x * canvasScale, y: point.y * canvasScale)
+        let radius = scale * canvasScale / 2
+        context.saveGState()
+        context.setBlendMode(.normal)
+        context.setFillColor(color.uiColor.cgColor)
+        context.setStrokeColor(color.uiColor.cgColor)
+        StickerRenderer.draw(symbol, center: center, radius: radius, in: context)
+        context.restoreGState()
     }
 
     private func drawSegment(from: CGPoint, to: CGPoint, color: RGBAColor, width: CGFloat, tool: DrawingTool) {
