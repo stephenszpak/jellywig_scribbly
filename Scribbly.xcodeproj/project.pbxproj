@@ -17,6 +17,7 @@
 		4785051F2454795CD17B75EF /* GeneratedPageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBBD93E335FDCB7B8F212D3 /* GeneratedPageStore.swift */; };
 		5CB4801450C610996BB02717 /* OpenAIImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FF606F81CA09FDEB1B90AF /* OpenAIImageGenerator.swift */; };
 		62370277CD0595701845EC32 /* PaintAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B05D5CEF9D8C8C63E7E5078 /* PaintAction.swift */; };
+		65B03FA41594FD88AE0D8477 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93EBD17AAEA95F185908FF3E /* Assets.xcassets */; };
 		6912D54010883E7C0518F932 /* ColoringPages in Resources */ = {isa = PBXBuildFile; fileRef = C41EC7D275BF2721F9625209 /* ColoringPages */; };
 		7560755D1C7786FA0F6C8DB2 /* CreatePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FFCDE1C4452D1950E5A19C /* CreatePageView.swift */; };
 		78CE16B5CAF1BC8CE6C3DE5F /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146768FD4EEBF23D80EE89FB /* Secrets.swift */; };
@@ -51,6 +52,7 @@
 		67872CF221E6546759FCF681 /* ScribblyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribblyApp.swift; sourceTree = "<group>"; };
 		7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTransform.swift; sourceTree = "<group>"; };
 		8EBBD93E335FDCB7B8F212D3 /* GeneratedPageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedPageStore.swift; sourceTree = "<group>"; };
+		93EBD17AAEA95F185908FF3E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		985C253C23016707173ECC69 /* LineArtRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineArtRenderer.swift; sourceTree = "<group>"; };
 		9D106AF24D08AD6CDEDD42C0 /* ParentGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentGateView.swift; sourceTree = "<group>"; };
 		AABE72A50AEE79DB57CEE667 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				15776B0FF8E042EF13D7DB03 /* Features */,
 				B45D8403BB573026FB8DBC47 /* Models */,
 				6E25426B1B4BB29601B0138D /* Persistence */,
+				B48D120E0551F0D9A6FF01B2 /* Resources */,
 			);
 			path = Scribbly;
 			sourceTree = "<group>";
@@ -172,6 +175,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		B48D120E0551F0D9A6FF01B2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				93EBD17AAEA95F185908FF3E /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		BE3DC3F0634B30434112BAAE = {
 			isa = PBXGroup;
 			children = (
@@ -197,13 +208,6 @@
 				985C253C23016707173ECC69 /* LineArtRenderer.swift */,
 			);
 			path = Rendering;
-			sourceTree = "<group>";
-		};
-		"TEMP_3BF323DC-AF6F-4D46-8D9D-B84DD3840F09" /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,6 +288,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65B03FA41594FD88AE0D8477 /* Assets.xcassets in Resources */,
 				6912D54010883E7C0518F932 /* ColoringPages in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,6 +346,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Scribbly;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -379,6 +385,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Scribbly;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
