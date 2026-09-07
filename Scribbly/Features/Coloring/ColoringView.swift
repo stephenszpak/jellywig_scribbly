@@ -30,8 +30,6 @@ struct ColoringView: View {
         _session = StateObject(wrappedValue: ColoringSession(page: page)); self.choosePage = choosePage
     }
 
-    private var isFreeDraw: Bool { session.page.lineArt == .blank }
-
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -60,9 +58,7 @@ struct ColoringView: View {
         HStack(spacing: 18) {
             BigButton(symbol: "chevron.left", label: "Home", color: .indigo, action: choosePage)
             Spacer()
-            if isFreeDraw {
-                BigButton(symbol: "trash", label: "Clear", color: .red, disabled: !session.canUndo) { showingClearConfirm = true }
-            }
+            BigButton(symbol: "trash", label: "Clear", color: .red, disabled: !session.canUndo) { showingClearConfirm = true }
             BigButton(symbol: "arrow.uturn.backward", label: "Undo", color: .blue, disabled: !session.canUndo) { session.undo() }
             BigButton(symbol: "arrow.uturn.forward", label: "Redo", color: .blue, disabled: !session.canRedo) { session.redo() }
             BigButton(symbol: "arrow.down.right.and.arrow.up.left", label: "Fit", color: .teal) { session.resetZoomToken += 1 }
@@ -91,15 +87,8 @@ struct ColoringView: View {
                         .buttonStyle(.plain).accessibilityLabel("\(sticker.rawValue) sticker")
                     }
                 } else {
-                    ForEach(BrushSize.allCases, id: \.self) { size in
-                        Button { session.brushSize = size } label: {
-                            Circle().fill(session.tool == .eraser ? Color.gray : Palette.colors[session.selectedColorIndex].color)
-                                .frame(width: size.dot, height: size.dot).frame(width: 48, height: 48)
-                                .background(session.brushSize == size ? Color.indigo.opacity(0.14) : Color.clear, in: Circle())
-                                .overlay(Circle().stroke(session.brushSize == size ? Color.indigo : Color.clear, lineWidth: 3))
-                        }
-                        .buttonStyle(.plain).accessibilityLabel("\(size.rawValue) brush")
-                    }
+                    BrushSizeSlider(value: $session.brushSize, dotColor: session.tool == .eraser ? .gray : Palette.colors[session.selectedColorIndex].color)
+                        .frame(width: compact ? 150 : 200)
                 }
             }
             .padding(.horizontal, 18)
@@ -136,6 +125,23 @@ private struct BigButton: View {
                 .background(color.opacity(disabled ? 0.06 : 0.13), in: RoundedRectangle(cornerRadius: 16))
         }
         .disabled(disabled).foregroundStyle(disabled ? Color.gray.opacity(0.35) : color).accessibilityLabel(label)
+    }
+}
+
+private struct BrushSizeSlider: View {
+    @Binding var value: CGFloat
+    let dotColor: Color
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Circle().fill(dotColor).frame(width: 8, height: 8)
+            Slider(value: $value, in: BrushSize.range)
+                .tint(.indigo)
+            Circle().fill(dotColor).frame(width: 26, height: 26)
+        }
+        .frame(height: 48)
+        .accessibilityLabel("Brush size")
+        .accessibilityValue("\(Int((value - BrushSize.range.lowerBound) / (BrushSize.range.upperBound - BrushSize.range.lowerBound) * 100)) percent")
     }
 }
 

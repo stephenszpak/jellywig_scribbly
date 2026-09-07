@@ -9,7 +9,7 @@ final class PaintEngine {
     private let fillablePixelCount: Int
     private var activePoints: [CGPoint] = []
     private var activeColor = RGBAColor(red: 1, green: 0, blue: 0, alpha: 1)
-    private var activeWidth: CGFloat = BrushSize.medium.width
+    private var activeWidth: CGFloat = BrushSize.default
     private var activeTool = DrawingTool.crayon
 
     init(page: ColoringPage, restoredActions: [PaintAction] = []) {

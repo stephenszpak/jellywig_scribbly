@@ -5,7 +5,7 @@ struct SavedSession: Codable, Equatable {
     var actions: [PaintAction]
     var selectedColor: Int
     var tool: DrawingTool
-    var brushSize: BrushSize
+    var brushSize: CGFloat
 }
 
 final class SessionStore: @unchecked Sendable {

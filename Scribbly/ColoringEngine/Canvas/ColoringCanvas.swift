@@ -5,7 +5,7 @@ import UIKit
 final class ColoringSession: ObservableObject {
     @Published var selectedColorIndex: Int
     @Published var tool: DrawingTool
-    @Published var brushSize: BrushSize
+    @Published var brushSize: CGFloat
     @Published var selectedSticker: StickerSymbol = .star
     @Published private(set) var canUndo = false
     @Published private(set) var canRedo = false
@@ -20,7 +20,7 @@ final class ColoringSession: ObservableObject {
         let saved = SessionStore.shared.session(for: page.id)
         selectedColorIndex = saved?.selectedColor ?? 0
         tool = saved?.tool ?? .crayon
-        brushSize = saved?.brushSize ?? .medium
+        brushSize = saved?.brushSize ?? BrushSize.default
         engine = PaintEngine(page: page, restoredActions: saved?.actions ?? [])
         updateHistoryState()
     }
@@ -48,14 +48,14 @@ struct ColoringCanvas: UIViewRepresentable {
 
     func makeUIView(context: Context) -> CanvasScrollView {
         let view = CanvasScrollView(engine: session.engine)
-        view.artwork.configuration = { (session.color, session.brushSize.width, session.tool, session.selectedSticker) }
+        view.artwork.configuration = { (session.color, session.brushSize, session.tool, session.selectedSticker) }
         view.artwork.onAction = { session.changed() }
         view.onTwoFingerUndo = { session.undo() }
         return view
     }
 
     func updateUIView(_ view: CanvasScrollView, context: Context) {
-        view.artwork.configuration = { (session.color, session.brushSize.width, session.tool, session.selectedSticker) }
+        view.artwork.configuration = { (session.color, session.brushSize, session.tool, session.selectedSticker) }
         view.artwork.setNeedsDisplay()
         if context.coordinator.lastResetToken != session.resetZoomToken {
             context.coordinator.lastResetToken = session.resetZoomToken; view.resetZoom(animated: true)
@@ -68,6 +68,7 @@ struct ColoringCanvas: UIViewRepresentable {
 final class CanvasScrollView: UIScrollView, UIScrollViewDelegate {
     let artwork: ArtworkView
     private var didInitialLayout = false
+    private var lastBoundsSize: CGSize = .zero
     var onTwoFingerUndo: () -> Void = {}
 
     init(engine: PaintEngine) {
@@ -79,6 +80,9 @@ final class CanvasScrollView: UIScrollView, UIScrollViewDelegate {
         panGestureRecognizer.minimumNumberOfTouches = 2; panGestureRecognizer.maximumNumberOfTouches = 2
         let undoGesture = UITapGestureRecognizer(target: self, action: #selector(twoFingerUndo))
         undoGesture.numberOfTouchesRequired = 2; addGestureRecognizer(undoGesture)
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
+        doubleTap.numberOfTapsRequired = 2; doubleTap.numberOfTouchesRequired = 1
+        addGestureRecognizer(doubleTap)
         delaysContentTouches = false; canCancelContentTouches = true
         addSubview(artwork)
     }
@@ -86,19 +90,32 @@ final class CanvasScrollView: UIScrollView, UIScrollViewDelegate {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        if !didInitialLayout || zoomScale == 1 {
-            let side = max(1, min(bounds.width - 24, bounds.height - 24))
-            artwork.bounds = CGRect(x: 0, y: 0, width: side, height: side)
-            artwork.center = CGPoint(x: bounds.midX, y: bounds.midY)
-            contentSize = CGSize(width: max(bounds.width, side), height: max(bounds.height, side))
+        guard bounds.width > 1, bounds.height > 1 else { return }
+        if !didInitialLayout || bounds.size != lastBoundsSize {
+            lastBoundsSize = bounds.size
+            let side = max(1, min(bounds.width, bounds.height) - 24)
+            artwork.frame = CGRect(x: 0, y: 0, width: side, height: side)
+            contentSize = artwork.frame.size
             didInitialLayout = true
+            setZoomScale(1, animated: false)
         }
         centerArtwork()
     }
     func viewForZooming(in scrollView: UIScrollView) -> UIView? { artwork }
     func scrollViewDidZoom(_ scrollView: UIScrollView) { centerArtwork() }
-    func resetZoom(animated: Bool) { setZoomScale(1, animated: animated); setContentOffset(.zero, animated: animated) }
+    func resetZoom(animated: Bool) { setZoomScale(1, animated: animated) }
     @objc private func twoFingerUndo() { onTwoFingerUndo() }
+    @objc private func handleDoubleTap(_ gesture: UITapGestureRecognizer) {
+        if zoomScale > minimumZoomScale + 0.01 {
+            setZoomScale(minimumZoomScale, animated: true)
+        } else {
+            let targetScale = min(maximumZoomScale, 2.5)
+            let point = gesture.location(in: artwork)
+            let size = CGSize(width: bounds.width / targetScale, height: bounds.height / targetScale)
+            let origin = CGPoint(x: point.x - size.width / 2, y: point.y - size.height / 2)
+            zoom(to: CGRect(origin: origin, size: size), animated: true)
+        }
+    }
     private func centerArtwork() {
         let horizontal = max(0, (bounds.width - contentSize.width) / 2)
         let vertical = max(0, (bounds.height - contentSize.height) / 2)

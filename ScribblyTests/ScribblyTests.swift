@@ -46,7 +46,7 @@ final class ScribblyTests: XCTestCase {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let page = ColoringPage.samples[1]
         let action = PaintAction.fill(seed: PaintPoint(CGPoint(x: 0.5, y: 0.5)), color: RGBAColor(red: 0, green: 1, blue: 0, alpha: 1))
-        let expected = SavedSession(pageID: page.id, actions: [action], selectedColor: 4, tool: .fill, brushSize: .large)
+        let expected = SavedSession(pageID: page.id, actions: [action], selectedColor: 4, tool: .fill, brushSize: 0.048)
         let writer = SessionStore(directory: directory)
         writer.save(expected); writer.flushForTests()
         let reader = SessionStore(directory: directory)

@@ -20,10 +20,9 @@ enum StickerSymbol: String, Codable, CaseIterable, Sendable {
     }
 }
 
-enum BrushSize: String, Codable, CaseIterable, Sendable {
-    case small, medium, large
-    var width: CGFloat { switch self { case .small: 0.014; case .medium: 0.027; case .large: 0.048 } }
-    var dot: CGFloat { switch self { case .small: 10; case .medium: 18; case .large: 28 } }
+enum BrushSize {
+    static let range: ClosedRange<CGFloat> = 0.01...0.06
+    static let `default`: CGFloat = 0.027
 }
 
 struct RGBAColor: Codable, Hashable, Sendable {
