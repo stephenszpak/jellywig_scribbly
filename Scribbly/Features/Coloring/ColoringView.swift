@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct PaletteColor: Identifiable {
     let id: Int
@@ -23,7 +24,6 @@ enum Palette {
 
 struct ColoringView: View {
     @StateObject private var session: ColoringSession
-    @State private var showingClearConfirm = false
     let choosePage: () -> Void
 
     init(page: ColoringPage, choosePage: @escaping () -> Void) {
@@ -48,17 +48,13 @@ struct ColoringView: View {
         .onChange(of: session.selectedColorIndex) { _, _ in session.persist() }
         .onChange(of: session.tool) { _, _ in session.persist() }
         .onChange(of: session.brushSize) { _, _ in session.persist() }
-        .confirmationDialog("Clear this page?", isPresented: $showingClearConfirm, titleVisibility: .visible) {
-            Button("Clear", role: .destructive) { session.clearAll() }
-            Button("Cancel", role: .cancel) {}
-        }
     }
 
     private var topBar: some View {
         HStack(spacing: 18) {
             BigButton(symbol: "chevron.left", label: "Home", color: .indigo, action: choosePage)
             Spacer()
-            BigButton(symbol: "trash", label: "Clear", color: .red, disabled: !session.canUndo) { showingClearConfirm = true }
+            HoldToClearButton(disabled: !session.canUndo) { session.clearAll() }
             BigButton(symbol: "arrow.uturn.backward", label: "Undo", color: .blue, disabled: !session.canUndo) { session.undo() }
             BigButton(symbol: "arrow.uturn.forward", label: "Redo", color: .blue, disabled: !session.canRedo) { session.redo() }
             BigButton(symbol: "arrow.down.right.and.arrow.up.left", label: "Fit", color: .teal) { session.resetZoomToken += 1 }
@@ -125,6 +121,47 @@ private struct BigButton: View {
                 .background(color.opacity(disabled ? 0.06 : 0.13), in: RoundedRectangle(cornerRadius: 16))
         }
         .disabled(disabled).foregroundStyle(disabled ? Color.gray.opacity(0.35) : color).accessibilityLabel(label)
+    }
+}
+
+private struct HoldToClearButton: View {
+    let disabled: Bool
+    let action: () -> Void
+    @GestureState private var isPressing = false
+    private let holdDuration: TimeInterval = 2
+
+    var body: some View {
+        ZStack {
+            Circle().stroke(Color.red.opacity(disabled ? 0.06 : 0.13), lineWidth: 4)
+            Circle()
+                .trim(from: 0, to: isPressing ? 1 : 0)
+                .stroke(Color.red, style: StrokeStyle(lineWidth: 4, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+                .animation(isPressing ? .linear(duration: holdDuration) : .easeOut(duration: 0.2), value: isPressing)
+            Image(systemName: "trash")
+                .font(.system(size: 23, weight: .bold))
+                .scaleEffect(isPressing ? 0.85 : 1)
+                .animation(.easeOut(duration: 0.15), value: isPressing)
+        }
+        .frame(width: 54, height: 48)
+        .padding(6)
+        .background(Color.red.opacity(disabled ? 0.03 : (isPressing ? 0.20 : 0.13)), in: RoundedRectangle(cornerRadius: 16))
+        .foregroundStyle(disabled ? Color.gray.opacity(0.35) : .red)
+        .contentShape(Rectangle())
+        .allowsHitTesting(!disabled)
+        .gesture(
+            LongPressGesture(minimumDuration: holdDuration)
+                .updating($isPressing) { value, state, _ in state = value }
+                .onEnded { _ in
+                    UINotificationFeedbackGenerator().notificationOccurred(.warning)
+                    action()
+                }
+        )
+        .onChange(of: isPressing) { _, pressing in
+            if pressing { UIImpactFeedbackGenerator(style: .light).impactOccurred() }
+        }
+        .accessibilityLabel("Clear page")
+        .accessibilityHint("Press and hold for two seconds to clear")
     }
 }
 
