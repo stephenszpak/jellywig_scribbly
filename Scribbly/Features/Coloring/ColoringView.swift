@@ -24,11 +24,17 @@ enum Palette {
 
 struct ColoringView: View {
     @StateObject private var session: ColoringSession
+    @State private var showingSaveAlert = false
+    @State private var newPageTitle = ""
+    @State private var savedBanner: String?
+    @State private var saveErrorMessage: String?
     let choosePage: () -> Void
 
     init(page: ColoringPage, choosePage: @escaping () -> Void) {
         _session = StateObject(wrappedValue: ColoringSession(page: page)); self.choosePage = choosePage
     }
+
+    private var isFreeDraw: Bool { session.page.lineArt == .blank }
 
     var body: some View {
         GeometryReader { geometry in
@@ -41,6 +47,9 @@ struct ColoringView: View {
                     controls(compact: geometry.size.height < 750)
                 }
                 ConfettiOverlay(trigger: session.didComplete)
+                if let savedBanner {
+                    SavedBanner(text: savedBanner).transition(.move(edge: .top).combined(with: .opacity))
+                }
             }
             .background(Color(red: 0.93, green: 0.95, blue: 0.98))
         }
@@ -48,12 +57,45 @@ struct ColoringView: View {
         .onChange(of: session.selectedColorIndex) { _, _ in session.persist() }
         .onChange(of: session.tool) { _, _ in session.persist() }
         .onChange(of: session.brushSize) { _, _ in session.persist() }
+        .alert("Save as Coloring Page", isPresented: $showingSaveAlert) {
+            TextField("Page name", text: $newPageTitle)
+            Button("Save") { saveAsPage() }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This saves your drawing as a new page you can color in again later.")
+        }
+        .alert("Couldn't Save Page", isPresented: .init(get: { saveErrorMessage != nil }, set: { if !$0 { saveErrorMessage = nil } })) {
+            Button("OK") {}
+        } message: {
+            Text(saveErrorMessage ?? "")
+        }
+    }
+
+    private func saveAsPage() {
+        let title = newPageTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let pngData = session.exportPNG() else {
+            saveErrorMessage = "Something went wrong saving your drawing. Please try again."
+            return
+        }
+        do {
+            let page = try GeneratedPageStore.shared.add(title: title.isEmpty ? "My Drawing" : title, pngData: pngData, source: .userDrawn)
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+            withAnimation { savedBanner = "Saved \"\(page.title)\" to your pages!" }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) { withAnimation { savedBanner = nil } }
+        } catch {
+            saveErrorMessage = "Something went wrong saving your drawing. Please try again."
+        }
     }
 
     private var topBar: some View {
         HStack(spacing: 18) {
             BigButton(symbol: "chevron.left", label: "Home", color: .indigo, action: choosePage)
             Spacer()
+            if isFreeDraw {
+                BigButton(symbol: "square.and.arrow.down", label: "Save", color: .green, disabled: !session.canUndo) {
+                    newPageTitle = ""; showingSaveAlert = true
+                }
+            }
             HoldToClearButton(disabled: !session.canUndo) { session.clearAll() }
             BigButton(symbol: "arrow.uturn.backward", label: "Undo", color: .blue, disabled: !session.canUndo) { session.undo() }
             BigButton(symbol: "arrow.uturn.forward", label: "Redo", color: .blue, disabled: !session.canRedo) { session.redo() }
@@ -108,6 +150,25 @@ struct ColoringView: View {
         }
         .padding(.top, 9).padding(.bottom, 10)
         .background(.white.shadow(.drop(color: .black.opacity(0.10), radius: 5, y: -2)))
+    }
+}
+
+private struct SavedBanner: View {
+    let text: String
+    var body: some View {
+        VStack {
+            HStack(spacing: 10) {
+                Image(systemName: "checkmark.circle.fill")
+                Text(text).font(.headline)
+            }
+            .foregroundStyle(.white)
+            .padding(.horizontal, 20).padding(.vertical, 14)
+            .background(Color.green, in: Capsule())
+            .shadow(color: .black.opacity(0.2), radius: 8, y: 4)
+            .padding(.top, 12)
+            Spacer()
+        }
+        .allowsHitTesting(false)
     }
 }
 

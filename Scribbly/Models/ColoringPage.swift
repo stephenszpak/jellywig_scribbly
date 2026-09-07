@@ -7,6 +7,7 @@ enum ColoringDifficulty: String, Codable, Sendable {
 enum ColoringPageSource: String, Codable, Sendable {
     case bundled
     case aiGenerated
+    case userDrawn
 }
 
 enum LineArtTemplate: String, Codable, Sendable {

@@ -27,10 +27,10 @@ final class GeneratedPageStore: @unchecked Sendable {
     func imageURL(for filename: String) -> URL { directory.appendingPathComponent(filename) }
 
     @discardableResult
-    func add(title: String, pngData: Data) throws -> ColoringPage {
+    func add(title: String, pngData: Data, source: ColoringPageSource = .aiGenerated) throws -> ColoringPage {
         let filename = "\(UUID().uuidString).png"
         try pngData.write(to: imageURL(for: filename), options: .atomic)
-        let page = ColoringPage(id: UUID(), title: title, difficulty: .simple, source: .aiGenerated, lineArt: .generated(filename))
+        let page = ColoringPage(id: UUID(), title: title, difficulty: .simple, source: source, lineArt: .generated(filename))
         lock.withLock { storedPages.insert(page, at: 0) }
         persist()
         return page

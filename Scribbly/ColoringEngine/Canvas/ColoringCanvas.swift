@@ -40,6 +40,9 @@ final class ColoringSession: ObservableObject {
     func persist() {
         SessionStore.shared.save(.init(pageID: page.id, actions: engine.actions, selectedColor: selectedColorIndex, tool: tool, brushSize: brushSize))
     }
+    /// Renders the current drawing to PNG data, for saving free-draw
+    /// creations as a new reusable coloring page.
+    func exportPNG() -> Data? { engine.image.flatMap { UIImage(cgImage: $0).pngData() } }
     private func updateHistoryState() { canUndo = engine.canUndo; canRedo = engine.canRedo }
 }
 
