@@ -34,6 +34,7 @@
 		D0289C1E53BD41B5E8C9FEFB /* SoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F09BAEF59957BCDCFEC5049 /* SoundPlayer.swift */; };
 		D7A419AB96323A91E6F23CC1 /* StickerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603798628709FC2D0A31506B /* StickerRenderer.swift */; };
 		EA3E7BE4CA1CDFB0C612B9D2 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F5E2A08F85CE5F323C6452 /* SessionStore.swift */; };
+		F92B033141D99D5D3FB97F84 /* AxolotlLandPages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE2DBFF596ADF34D1A0E73 /* AxolotlLandPages.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		62F5E2A08F85CE5F323C6452 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		67872CF221E6546759FCF681 /* ScribblyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribblyApp.swift; sourceTree = "<group>"; };
 		68F838DB71CE37F6E595C3D0 /* DinosaurLandPages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DinosaurLandPages.swift; sourceTree = "<group>"; };
+		73EE2DBFF596ADF34D1A0E73 /* AxolotlLandPages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxolotlLandPages.swift; sourceTree = "<group>"; };
 		7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTransform.swift; sourceTree = "<group>"; };
 		8EBBD93E335FDCB7B8F212D3 /* GeneratedPageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedPageStore.swift; sourceTree = "<group>"; };
 		93EBD17AAEA95F185908FF3E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 		B45D8403BB573026FB8DBC47 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				73EE2DBFF596ADF34D1A0E73 /* AxolotlLandPages.swift */,
 				0964776D815475395514C8CA /* ColoringPage.swift */,
 				68F838DB71CE37F6E595C3D0 /* DinosaurLandPages.swift */,
 			);
@@ -350,6 +353,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F92B033141D99D5D3FB97F84 /* AxolotlLandPages.swift in Sources */,
 				9C5FB768E274881C5FBC6680 /* CanvasTransform.swift in Sources */,
 				CEA71267CAF9B095B7827331 /* CollectionBrowserView.swift in Sources */,
 				3B4041DF6B491E99CB753971 /* ColoringCanvas.swift in Sources */,

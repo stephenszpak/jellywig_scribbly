@@ -47,6 +47,7 @@ struct ColoringPage: Identifiable, Codable, Hashable, Sendable {
         if id == freeDraw.id { return freeDraw }
         if let match = samples.first(where: { $0.id == id }) { return match }
         if let match = dinosaurLand.first(where: { $0.id == id }) { return match }
+        if let match = axolotlLand.first(where: { $0.id == id }) { return match }
         return GeneratedPageStore.shared.page(id: id)
     }
 }

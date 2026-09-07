@@ -1,11 +1,25 @@
 import SwiftUI
 
+private struct PageCollection: Identifiable {
+    let id: String
+    let title: String
+    let subtitle: String
+    let symbol: String
+    let color: Color
+    let pages: [ColoringPage]
+}
+
+private let pageCollections: [PageCollection] = [
+    PageCollection(id: "dinosaur-land", title: "Dinosaur Land", subtitle: "Simple and intermediate dino pages", symbol: "leaf.fill", color: .green, pages: ColoringPage.dinosaurLand),
+    PageCollection(id: "axolotl-land", title: "Axolotl Land", subtitle: "Simple and intermediate axolotl pages", symbol: "drop.fill", color: .pink, pages: ColoringPage.axolotlLand),
+]
+
 struct HomeView: View {
     @State private var activeSession: ColoringSession?
     @State private var isLoadingPage = false
     @State private var showingPagePicker = false
     @State private var showingCreateFlow = false
-    @State private var showingDinosaurLand = false
+    @State private var presentedCollection: PageCollection?
     @State private var selectedPageForPickers = ColoringPage.samples[0]
 
     var body: some View {
@@ -17,21 +31,25 @@ struct HomeView: View {
                     Text("Pick something to color").font(.title3).foregroundStyle(.secondary)
                 }
                 Spacer()
-                VStack(spacing: 20) {
-                    HomeOptionButton(title: "Free Draw", subtitle: "A blank page just for you", symbol: "pencil.and.scribble", color: .teal) {
-                        openPage(.freeDraw)
+                ScrollView {
+                    VStack(spacing: 20) {
+                        HomeOptionButton(title: "Free Draw", subtitle: "A blank page just for you", symbol: "pencil.and.scribble", color: .teal) {
+                            openPage(.freeDraw)
+                        }
+                        HomeOptionButton(title: "Create a Page", subtitle: "Make a new picture", symbol: "sparkles", color: .purple) {
+                            showingCreateFlow = true
+                        }
+                        HomeOptionButton(title: "Pick a Picture", subtitle: "Choose from our gallery", symbol: "photo.on.rectangle.angled", color: .indigo) {
+                            showingPagePicker = true
+                        }
+                        ForEach(pageCollections) { collection in
+                            HomeOptionButton(title: collection.title, subtitle: collection.subtitle, symbol: collection.symbol, color: collection.color) {
+                                presentedCollection = collection
+                            }
+                        }
                     }
-                    HomeOptionButton(title: "Create a Page", subtitle: "Make a new picture", symbol: "sparkles", color: .purple) {
-                        showingCreateFlow = true
-                    }
-                    HomeOptionButton(title: "Pick a Picture", subtitle: "Choose from our gallery", symbol: "photo.on.rectangle.angled", color: .indigo) {
-                        showingPagePicker = true
-                    }
-                    HomeOptionButton(title: "Dinosaur Land", subtitle: "Simple and intermediate dino pages", symbol: "leaf.fill", color: .green) {
-                        showingDinosaurLand = true
-                    }
+                    .padding(.horizontal, 48)
                 }
-                .padding(.horizontal, 48)
                 Spacer()
                 Spacer()
             }
@@ -54,8 +72,8 @@ struct HomeView: View {
                 openPage(page)
             }
         }
-        .sheet(isPresented: $showingDinosaurLand) {
-            CollectionBrowserView(title: "Dinosaur Land", pages: ColoringPage.dinosaurLand, selectedPage: Binding(
+        .sheet(item: $presentedCollection) { collection in
+            CollectionBrowserView(title: collection.title, pages: collection.pages, selectedPage: Binding(
                 get: { selectedPageForPickers },
                 set: { openPage($0) }
             ))
