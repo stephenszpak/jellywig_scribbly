@@ -6,6 +6,7 @@ final class ColoringSession: ObservableObject, @MainActor Identifiable {
     @Published var selectedColorIndex: Int
     @Published var tool: DrawingTool
     @Published var brushSize: CGFloat
+    @Published var glitterEnabled: Bool
     @Published var selectedSticker: StickerSymbol = .star
     @Published private(set) var canUndo = false
     @Published private(set) var canRedo = false
@@ -22,6 +23,7 @@ final class ColoringSession: ObservableObject, @MainActor Identifiable {
         selectedColorIndex = saved?.selectedColor ?? 0
         tool = saved?.tool ?? .crayon
         brushSize = saved?.brushSize ?? BrushSize.default
+        glitterEnabled = saved?.glitterEnabled ?? false
         self.engine = engine
         updateHistoryState()
     }
@@ -53,7 +55,7 @@ final class ColoringSession: ObservableObject, @MainActor Identifiable {
     func redo() { engine.redo(); changed() }
     func clearAll() { engine.clearAll(); hasCelebrated = false; changed() }
     func persist() {
-        SessionStore.shared.save(.init(pageID: page.id, actions: engine.actions, selectedColor: selectedColorIndex, tool: tool, brushSize: brushSize))
+        SessionStore.shared.save(.init(pageID: page.id, actions: engine.actions, selectedColor: selectedColorIndex, tool: tool, brushSize: brushSize, glitterEnabled: glitterEnabled))
     }
     /// Renders the current drawing to PNG data, for saving free-draw
     /// creations as a new reusable coloring page.
@@ -66,14 +68,14 @@ struct ColoringCanvas: UIViewRepresentable {
 
     func makeUIView(context: Context) -> CanvasScrollView {
         let view = CanvasScrollView(engine: session.engine)
-        view.artwork.configuration = { (session.color, session.brushSize, session.tool, session.selectedSticker) }
+        view.artwork.configuration = { (session.color, session.brushSize, session.tool, session.selectedSticker, session.glitterEnabled) }
         view.artwork.onAction = { session.changed() }
         view.onTwoFingerUndo = { session.undo() }
         return view
     }
 
     func updateUIView(_ view: CanvasScrollView, context: Context) {
-        view.artwork.configuration = { (session.color, session.brushSize, session.tool, session.selectedSticker) }
+        view.artwork.configuration = { (session.color, session.brushSize, session.tool, session.selectedSticker, session.glitterEnabled) }
         view.artwork.setNeedsDisplay()
         if context.coordinator.lastResetToken != session.resetZoomToken {
             context.coordinator.lastResetToken = session.resetZoomToken; view.resetZoom(animated: true)
@@ -143,7 +145,7 @@ final class CanvasScrollView: UIScrollView, UIScrollViewDelegate {
 
 final class ArtworkView: UIView {
     let engine: PaintEngine
-    var configuration: () -> (RGBAColor, CGFloat, DrawingTool, StickerSymbol) = { (.init(red: 1, green: 0, blue: 0, alpha: 1), 0.03, .crayon, .star) }
+    var configuration: () -> (RGBAColor, CGFloat, DrawingTool, StickerSymbol, Bool) = { (.init(red: 1, green: 0, blue: 0, alpha: 1), 0.03, .crayon, .star, false) }
     var onAction: () -> Void = {}
     private var drawingTouch: UITouch?
 
@@ -166,7 +168,7 @@ final class ArtworkView: UIView {
         guard event?.allTouches?.count == 1, let touch = touches.first else { cancelDrawing(); return }
         let point = normalized(touch.location(in: self)); let config = configuration()
         if config.2 == .fill {
-            engine.fill(at: point, color: config.0); setNeedsDisplay(); onAction()
+            engine.fill(at: point, color: config.0, glitter: config.4); setNeedsDisplay(); onAction()
             SoundPlayer.shared.play(.fill)
             return
         }
@@ -174,7 +176,7 @@ final class ArtworkView: UIView {
             engine.placeSticker(config.3, at: point, color: config.0); setNeedsDisplay(); onAction()
             return
         }
-        drawingTouch = touch; engine.beginStroke(at: point, color: config.0, width: config.1, tool: config.2); setNeedsDisplay()
+        drawingTouch = touch; engine.beginStroke(at: point, color: config.0, width: config.1, tool: config.2, glitter: config.4); setNeedsDisplay()
     }
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard event?.allTouches?.count == 1, let touch = drawingTouch else { cancelDrawing(); return }

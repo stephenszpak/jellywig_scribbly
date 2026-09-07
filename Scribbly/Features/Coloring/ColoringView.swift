@@ -57,6 +57,7 @@ struct ColoringView: View {
         .onChange(of: session.selectedColorIndex) { _, _ in session.persist() }
         .onChange(of: session.tool) { _, _ in session.persist() }
         .onChange(of: session.brushSize) { _, _ in session.persist() }
+        .onChange(of: session.glitterEnabled) { _, _ in session.persist() }
         .alert("Save as Coloring Page", isPresented: $showingSaveAlert) {
             TextField("Page name", text: $newPageTitle)
             Button("Save") { saveAsPage() }
@@ -110,6 +111,9 @@ struct ColoringView: View {
             HStack(spacing: 10) {
                 ForEach(DrawingTool.allCases, id: \.self) { tool in
                     ToolButton(tool: tool, selected: session.tool == tool) { session.tool = tool }
+                }
+                if session.tool != .sticker && session.tool != .eraser {
+                    GlitterToggleButton(isOn: session.glitterEnabled) { session.glitterEnabled.toggle() }
                 }
                 Spacer(minLength: 8)
                 if session.tool == .sticker {
@@ -255,5 +259,22 @@ private struct ToolButton: View {
             .foregroundStyle(selected ? .white : .indigo)
             .background(selected ? Color.indigo : Color.indigo.opacity(0.10), in: RoundedRectangle(cornerRadius: 15))
         }.buttonStyle(.plain).accessibilityAddTraits(selected ? .isSelected : [])
+    }
+}
+
+/// Adds sparkle to whatever brush or fill tool is currently selected,
+/// rather than being a separate tool of its own.
+private struct GlitterToggleButton: View {
+    let isOn: Bool, action: () -> Void
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 2) {
+                Image(systemName: "sparkles").font(.system(size: 23, weight: .bold))
+                Text("Glitter").font(.caption2.bold()).lineLimit(1)
+            }
+            .frame(minWidth: 62, minHeight: 50)
+            .foregroundStyle(isOn ? .white : .pink)
+            .background(isOn ? Color.pink : Color.pink.opacity(0.10), in: RoundedRectangle(cornerRadius: 15))
+        }.buttonStyle(.plain).accessibilityAddTraits(isOn ? .isSelected : []).accessibilityLabel("Glitter")
     }
 }

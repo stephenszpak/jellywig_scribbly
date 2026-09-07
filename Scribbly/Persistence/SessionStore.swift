@@ -1,11 +1,38 @@
 import Foundation
 
-struct SavedSession: Codable, Equatable {
+struct SavedSession: Equatable {
     var pageID: UUID
     var actions: [PaintAction]
     var selectedColor: Int
     var tool: DrawingTool
     var brushSize: CGFloat
+    var glitterEnabled: Bool
+}
+
+/// Hand-written so sessions saved before the `glitter` toggle existed still
+/// decode: a missing `glitterEnabled` key just defaults to false.
+extension SavedSession: Codable {
+    private enum CodingKeys: String, CodingKey { case pageID, actions, selectedColor, tool, brushSize, glitterEnabled }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        pageID = try container.decode(UUID.self, forKey: .pageID)
+        actions = try container.decode([PaintAction].self, forKey: .actions)
+        selectedColor = try container.decode(Int.self, forKey: .selectedColor)
+        tool = try container.decode(DrawingTool.self, forKey: .tool)
+        brushSize = try container.decode(CGFloat.self, forKey: .brushSize)
+        glitterEnabled = try container.decodeIfPresent(Bool.self, forKey: .glitterEnabled) ?? false
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(pageID, forKey: .pageID)
+        try container.encode(actions, forKey: .actions)
+        try container.encode(selectedColor, forKey: .selectedColor)
+        try container.encode(tool, forKey: .tool)
+        try container.encode(brushSize, forKey: .brushSize)
+        try container.encode(glitterEnabled, forKey: .glitterEnabled)
+    }
 }
 
 final class SessionStore: @unchecked Sendable {

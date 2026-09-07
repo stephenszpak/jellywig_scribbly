@@ -15,6 +15,7 @@ final class PaintEngine: @unchecked Sendable {
     private var activeColor = RGBAColor(red: 1, green: 0, blue: 0, alpha: 1)
     private var activeWidth: CGFloat = BrushSize.default
     private var activeTool = DrawingTool.crayon
+    private var activeGlitter = false
 
     init(page: ColoringPage, restoredActions: [PaintAction] = []) {
         self.page = page
@@ -39,9 +40,9 @@ final class PaintEngine: @unchecked Sendable {
         return bytes[(y * Self.pixelSize + x) * 4 + 3]
     }
 
-    func beginStroke(at point: CGPoint, color: RGBAColor, width: CGFloat, tool: DrawingTool) {
-        activePoints = [point]; activeColor = color; activeWidth = width; activeTool = tool
-        drawSegment(from: point, to: point, color: color, width: width, tool: tool)
+    func beginStroke(at point: CGPoint, color: RGBAColor, width: CGFloat, tool: DrawingTool, glitter: Bool) {
+        activePoints = [point]; activeColor = color; activeWidth = width; activeTool = tool; activeGlitter = glitter
+        drawSegment(from: point, to: point, color: color, width: width, tool: tool, glitter: glitter)
     }
 
     func continueStroke(to point: CGPoint) {
@@ -52,21 +53,21 @@ final class PaintEngine: @unchecked Sendable {
         for step in 1...steps {
             let t = CGFloat(step) / CGFloat(steps)
             let interpolated = CGPoint(x: previous.x + (point.x - previous.x) * t, y: previous.y + (point.y - previous.y) * t)
-            drawSegment(from: activePoints.last ?? previous, to: interpolated, color: activeColor, width: activeWidth, tool: activeTool)
+            drawSegment(from: activePoints.last ?? previous, to: interpolated, color: activeColor, width: activeWidth, tool: activeTool, glitter: activeGlitter)
             activePoints.append(interpolated)
         }
     }
 
     func endStroke() {
         guard !activePoints.isEmpty else { return }
-        history.add(.stroke(points: activePoints.map(PaintPoint.init), color: activeColor, width: activeWidth, tool: activeTool))
+        history.add(.stroke(points: activePoints.map(PaintPoint.init), color: activeColor, width: activeWidth, tool: activeTool, glitter: activeGlitter))
         activePoints = []
     }
 
     func cancelStroke() { activePoints = []; rebuild() }
 
-    func fill(at point: CGPoint, color: RGBAColor) {
-        let action = PaintAction.fill(seed: PaintPoint(point), color: color)
+    func fill(at point: CGPoint, color: RGBAColor, glitter: Bool) {
+        let action = PaintAction.fill(seed: PaintPoint(point), color: color, glitter: glitter)
         apply(action); history.add(action)
     }
 
@@ -101,11 +102,11 @@ final class PaintEngine: @unchecked Sendable {
 
     private func apply(_ action: PaintAction) {
         switch action {
-        case let .stroke(points, color, width, tool):
+        case let .stroke(points, color, width, tool, glitter):
             guard let first = points.first?.cgPoint else { return }
-            if points.count == 1 { drawSegment(from: first, to: first, color: color, width: width, tool: tool) }
-            for pair in zip(points, points.dropFirst()) { drawSegment(from: pair.0.cgPoint, to: pair.1.cgPoint, color: color, width: width, tool: tool) }
-        case let .fill(seed, color): floodFill(seed.cgPoint, color: color)
+            if points.count == 1 { drawSegment(from: first, to: first, color: color, width: width, tool: tool, glitter: glitter) }
+            for pair in zip(points, points.dropFirst()) { drawSegment(from: pair.0.cgPoint, to: pair.1.cgPoint, color: color, width: width, tool: tool, glitter: glitter) }
+        case let .fill(seed, color, glitter): floodFill(seed.cgPoint, color: color, glitter: glitter)
         case let .sticker(position, symbol, color, scale): drawSticker(symbol, at: position.cgPoint, color: color, scale: scale)
         }
     }
@@ -122,7 +123,7 @@ final class PaintEngine: @unchecked Sendable {
         context.restoreGState()
     }
 
-    private func drawSegment(from: CGPoint, to: CGPoint, color: RGBAColor, width: CGFloat, tool: DrawingTool) {
+    private func drawSegment(from: CGPoint, to: CGPoint, color: RGBAColor, width: CGFloat, tool: DrawingTool, glitter: Bool) {
         let scale = CGFloat(Self.pixelSize)
         context.saveGState()
         context.setLineCap(.round); context.setLineJoin(.round)
@@ -142,9 +143,57 @@ final class PaintEngine: @unchecked Sendable {
             }
         }
         context.restoreGState()
+        if glitter, tool != .eraser {
+            scatterGlitter(around: CGPoint(x: to.x * scale, y: to.y * scale), spread: width * scale, color: color)
+        }
     }
 
-    private func floodFill(_ point: CGPoint, color: RGBAColor) {
+    /// Stamps a couple of randomized sparkle flecks near `center`. Shared by
+    /// strokes (per drawn segment) and fills (sampled across the filled
+    /// region) so glitter behaves the same regardless of which tool laid
+    /// down the underlying color.
+    private func scatterGlitter(around center: CGPoint, spread: CGFloat, color: RGBAColor) {
+        var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, colorAlpha: CGFloat = 0
+        color.uiColor.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &colorAlpha)
+        let seed = Int((center.x * 1301 + center.y * 1499))
+        for index in 0..<2 {
+            let flakeSeed = seed &+ index * 71
+            let dx = CGFloat((flakeSeed % 21) - 10) / 10 * spread
+            let dy = CGFloat(((flakeSeed / 3) % 21) - 10) / 10 * spread
+            let flakeCenter = CGPoint(x: center.x + dx, y: center.y + dy)
+            let radius = max(1.4, spread * (0.09 + CGFloat(flakeSeed % 5) / 100))
+            let rotation = CGFloat(flakeSeed % 360) * .pi / 180
+            let sparkle = CGFloat(flakeSeed % 40) / 100
+            let flakeColor = UIColor(hue: hue, saturation: max(0, saturation - sparkle * 0.4), brightness: min(1, brightness + sparkle + 0.2), alpha: 0.85)
+            drawSparkle(center: flakeCenter, radius: radius, rotation: rotation, color: flakeColor, in: context)
+        }
+    }
+
+    /// A single glitter fleck: a small four-point star with additive blending
+    /// (so overlapping flecks brighten rather than muddy) plus a tiny white
+    /// highlight dot at its center for extra pop.
+    private func drawSparkle(center: CGPoint, radius: CGFloat, rotation: CGFloat, color: UIColor, in context: CGContext) {
+        context.saveGState()
+        context.setBlendMode(.plusLighter)
+        let path = CGMutablePath()
+        let armCount = 4
+        for i in 0..<(armCount * 2) {
+            let angle = rotation + CGFloat(i) * .pi / CGFloat(armCount)
+            let r = i.isMultiple(of: 2) ? radius : radius * 0.35
+            let point = CGPoint(x: center.x + cos(angle) * r, y: center.y + sin(angle) * r)
+            if i == 0 { path.move(to: point) } else { path.addLine(to: point) }
+        }
+        path.closeSubpath()
+        context.setFillColor(color.cgColor)
+        context.addPath(path)
+        context.fillPath()
+        let dotRadius = radius * 0.18
+        context.setFillColor(UIColor.white.withAlphaComponent(0.9).cgColor)
+        context.fillEllipse(in: CGRect(x: center.x - dotRadius, y: center.y - dotRadius, width: dotRadius * 2, height: dotRadius * 2))
+        context.restoreGState()
+    }
+
+    private func floodFill(_ point: CGPoint, color: RGBAColor, glitter: Bool) {
         let width = Self.pixelSize, height = Self.pixelSize
         let startX = min(width - 1, max(0, Int(point.x * CGFloat(width))))
         let startY = min(height - 1, max(0, Int(point.y * CGFloat(height))))
@@ -162,6 +211,22 @@ final class PaintEngine: @unchecked Sendable {
             if x + 1 < width { enqueue(index + 1, mask: mask, visited: &visited, queue: &queue) }
             if index >= width { enqueue(index - width, mask: mask, visited: &visited, queue: &queue) }
             if index + width < width * height { enqueue(index + width, mask: mask, visited: &visited, queue: &queue) }
+        }
+        if glitter { scatterGlitterAcross(queue, width: width, color: color) }
+    }
+
+    /// Sprinkles sparkle flecks across a filled region by sampling every
+    /// so-many pixels of the flood-filled area, so Fill + Glitter reads as
+    /// speckled rather than a single sparkle at the tap point.
+    private func scatterGlitterAcross(_ filledIndices: [Int32], width: Int, color: RGBAColor) {
+        let stride = 60
+        var index = 0
+        while index < filledIndices.count {
+            let pixel = Int(filledIndices[index])
+            let center = CGPoint(x: CGFloat(pixel % width), y: CGFloat(pixel / width))
+            scatterGlitter(around: center, spread: CGFloat(width) * 0.02, color: color)
+            let jitter = Int(center.x + center.y) % 25
+            index += stride + jitter
         }
     }
 
