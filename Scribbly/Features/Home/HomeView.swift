@@ -1,50 +1,98 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var activePage: ColoringPage?
+    @State private var activeSession: ColoringSession?
+    @State private var isLoadingPage = false
     @State private var showingPagePicker = false
     @State private var showingCreateFlow = false
+    @State private var showingDinosaurLand = false
+    @State private var selectedPageForPickers = ColoringPage.samples[0]
 
     var body: some View {
-        VStack(spacing: 28) {
-            Spacer()
-            VStack(spacing: 6) {
-                Text("Scribbly").font(.system(size: 52, weight: .heavy, design: .rounded)).foregroundStyle(.indigo)
-                Text("Pick something to color").font(.title3).foregroundStyle(.secondary)
+        ZStack {
+            VStack(spacing: 28) {
+                Spacer()
+                VStack(spacing: 6) {
+                    Text("Scribbly").font(.system(size: 52, weight: .heavy, design: .rounded)).foregroundStyle(.indigo)
+                    Text("Pick something to color").font(.title3).foregroundStyle(.secondary)
+                }
+                Spacer()
+                VStack(spacing: 20) {
+                    HomeOptionButton(title: "Free Draw", subtitle: "A blank page just for you", symbol: "pencil.and.scribble", color: .teal) {
+                        openPage(.freeDraw)
+                    }
+                    HomeOptionButton(title: "Create a Page", subtitle: "Make a new picture", symbol: "sparkles", color: .purple) {
+                        showingCreateFlow = true
+                    }
+                    HomeOptionButton(title: "Pick a Picture", subtitle: "Choose from our gallery", symbol: "photo.on.rectangle.angled", color: .indigo) {
+                        showingPagePicker = true
+                    }
+                    HomeOptionButton(title: "Dinosaur Land", subtitle: "Simple and intermediate dino pages", symbol: "leaf.fill", color: .green) {
+                        showingDinosaurLand = true
+                    }
+                }
+                .padding(.horizontal, 48)
+                Spacer()
+                Spacer()
             }
-            Spacer()
-            VStack(spacing: 20) {
-                HomeOptionButton(title: "Free Draw", subtitle: "A blank page just for you", symbol: "pencil.and.scribble", color: .teal) {
-                    activePage = .freeDraw
-                }
-                HomeOptionButton(title: "Create a Page", subtitle: "Make a new picture", symbol: "sparkles", color: .purple) {
-                    showingCreateFlow = true
-                }
-                HomeOptionButton(title: "Pick a Picture", subtitle: "Choose from our gallery", symbol: "photo.on.rectangle.angled", color: .indigo) {
-                    showingPagePicker = true
-                }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(red: 0.93, green: 0.95, blue: 0.98))
+
+            if isLoadingPage {
+                LoadingOverlay()
             }
-            .padding(.horizontal, 48)
-            Spacer()
-            Spacer()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(red: 0.93, green: 0.95, blue: 0.98))
         .sheet(isPresented: $showingPagePicker) {
             PagePicker(selectedPage: Binding(
-                get: { activePage ?? ColoringPage.samples[0] },
-                set: { activePage = $0 }
+                get: { selectedPageForPickers },
+                set: { openPage($0) }
             ))
         }
         .sheet(isPresented: $showingCreateFlow) {
             CreatePageFlow { page in
                 showingCreateFlow = false
-                activePage = page
+                openPage(page)
             }
         }
-        .fullScreenCover(item: $activePage) { page in
-            ColoringView(page: page) { activePage = nil }
+        .sheet(isPresented: $showingDinosaurLand) {
+            CollectionBrowserView(title: "Dinosaur Land", pages: ColoringPage.dinosaurLand, selectedPage: Binding(
+                get: { selectedPageForPickers },
+                set: { openPage($0) }
+            ))
         }
+        .fullScreenCover(item: $activeSession) { session in
+            ColoringView(session: session) { activeSession = nil }
+        }
+    }
+
+    /// Kicks off the (potentially slow — decoding line art and computing
+    /// its fill mask) session load in the background and shows a spinner
+    /// immediately, instead of freezing on the current screen until the
+    /// coloring view is ready to appear.
+    private func openPage(_ page: ColoringPage) {
+        selectedPageForPickers = page
+        isLoadingPage = true
+        Task {
+            let session = await ColoringSession.preload(page: page)
+            isLoadingPage = false
+            activeSession = session
+        }
+    }
+}
+
+private struct LoadingOverlay: View {
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.15).ignoresSafeArea()
+            VStack(spacing: 16) {
+                ProgressView().scaleEffect(1.6).tint(.indigo)
+                Text("Getting your page ready...").font(.headline).foregroundStyle(.primary)
+            }
+            .padding(28)
+            .background(.white, in: RoundedRectangle(cornerRadius: 24))
+            .shadow(color: .black.opacity(0.2), radius: 12, y: 6)
+        }
+        .transition(.opacity)
     }
 }
 

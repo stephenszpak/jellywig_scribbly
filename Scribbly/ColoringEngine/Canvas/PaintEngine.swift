@@ -1,6 +1,10 @@
 import UIKit
 
-final class PaintEngine {
+/// Built once (often off the main actor, via `ColoringSession.preload`)
+/// and afterward only ever touched from the main actor — never accessed
+/// concurrently, so `@unchecked Sendable` is safe in practice even though
+/// its mutable CGContext/history state isn't provably so.
+final class PaintEngine: @unchecked Sendable {
     static let pixelSize = 1024
     let page: ColoringPage
     private(set) var history = ActionHistory()

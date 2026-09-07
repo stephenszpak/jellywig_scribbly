@@ -13,11 +13,13 @@
 		2EC7A9E0E12F3CF56BC82CFF /* celebration.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2808930224E5C98C3DB310D7 /* celebration.wav */; };
 		3B4041DF6B491E99CB753971 /* ColoringCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F865972B42D4F0743748A9C4 /* ColoringCanvas.swift */; };
 		40855971BA694E1B53D176C6 /* LineArtRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985C253C23016707173ECC69 /* LineArtRenderer.swift */; };
+		41596D195293676DA4A0367C /* LineArtPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F3FAE06DA945C68EC4608 /* LineArtPreview.swift */; };
 		44820FFD04679E08801077D2 /* PaintEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D285D72FA169B223023CBC /* PaintEngine.swift */; };
 		456EC4B1403282A538FB5B8A /* ColoringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F302C3BD2C93E55A1EF291 /* ColoringView.swift */; };
 		4785051F2454795CD17B75EF /* GeneratedPageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBBD93E335FDCB7B8F212D3 /* GeneratedPageStore.swift */; };
 		5CB4801450C610996BB02717 /* OpenAIImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FF606F81CA09FDEB1B90AF /* OpenAIImageGenerator.swift */; };
 		62370277CD0595701845EC32 /* PaintAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B05D5CEF9D8C8C63E7E5078 /* PaintAction.swift */; };
+		627A7BDEA647F022C0B7F7A3 /* DinosaurLandPages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F838DB71CE37F6E595C3D0 /* DinosaurLandPages.swift */; };
 		65B03FA41594FD88AE0D8477 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93EBD17AAEA95F185908FF3E /* Assets.xcassets */; };
 		6912D54010883E7C0518F932 /* ColoringPages in Resources */ = {isa = PBXBuildFile; fileRef = C41EC7D275BF2721F9625209 /* ColoringPages */; };
 		7560755D1C7786FA0F6C8DB2 /* CreatePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FFCDE1C4452D1950E5A19C /* CreatePageView.swift */; };
@@ -28,6 +30,7 @@
 		A2E18BD99FBE90245448D7D2 /* ScribblyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67872CF221E6546759FCF681 /* ScribblyApp.swift */; };
 		A3D50DD5CD6E1E136EEEF0C1 /* ConfettiOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00026D85ACEE8B01D98BEC12 /* ConfettiOverlay.swift */; };
 		CD84D0152434A00D0613085C /* PagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C96C5D1D27EC4A930B414A4 /* PagePicker.swift */; };
+		CEA71267CAF9B095B7827331 /* CollectionBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F10C3A6061D2157F55E598 /* CollectionBrowserView.swift */; };
 		D0289C1E53BD41B5E8C9FEFB /* SoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F09BAEF59957BCDCFEC5049 /* SoundPlayer.swift */; };
 		D7A419AB96323A91E6F23CC1 /* StickerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603798628709FC2D0A31506B /* StickerRenderer.swift */; };
 		EA3E7BE4CA1CDFB0C612B9D2 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F5E2A08F85CE5F323C6452 /* SessionStore.swift */; };
@@ -46,6 +49,7 @@
 /* Begin PBXFileReference section */
 		00026D85ACEE8B01D98BEC12 /* ConfettiOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiOverlay.swift; sourceTree = "<group>"; };
 		0964776D815475395514C8CA /* ColoringPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoringPage.swift; sourceTree = "<group>"; };
+		11F10C3A6061D2157F55E598 /* CollectionBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionBrowserView.swift; sourceTree = "<group>"; };
 		135FDECFDBDD71B3083BD7E1 /* ScribblyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribblyTests.swift; sourceTree = "<group>"; };
 		146768FD4EEBF23D80EE89FB /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		18FF606F81CA09FDEB1B90AF /* OpenAIImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIImageGenerator.swift; sourceTree = "<group>"; };
@@ -59,11 +63,13 @@
 		603798628709FC2D0A31506B /* StickerRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRenderer.swift; sourceTree = "<group>"; };
 		62F5E2A08F85CE5F323C6452 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		67872CF221E6546759FCF681 /* ScribblyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribblyApp.swift; sourceTree = "<group>"; };
+		68F838DB71CE37F6E595C3D0 /* DinosaurLandPages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DinosaurLandPages.swift; sourceTree = "<group>"; };
 		7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTransform.swift; sourceTree = "<group>"; };
 		8EBBD93E335FDCB7B8F212D3 /* GeneratedPageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedPageStore.swift; sourceTree = "<group>"; };
 		93EBD17AAEA95F185908FF3E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		985C253C23016707173ECC69 /* LineArtRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineArtRenderer.swift; sourceTree = "<group>"; };
 		9D106AF24D08AD6CDEDD42C0 /* ParentGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentGateView.swift; sourceTree = "<group>"; };
+		AA7F3FAE06DA945C68EC4608 /* LineArtPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineArtPreview.swift; sourceTree = "<group>"; };
 		AABE72A50AEE79DB57CEE667 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		B9D285D72FA169B223023CBC /* PaintEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintEngine.swift; sourceTree = "<group>"; };
 		C41EC7D275BF2721F9625209 /* ColoringPages */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ColoringPages; path = Scribbly/Resources/ColoringPages; sourceTree = SOURCE_ROOT; };
@@ -93,8 +99,10 @@
 		3081DC208068EFAE8D4BAFE6 /* Coloring */ = {
 			isa = PBXGroup;
 			children = (
+				11F10C3A6061D2157F55E598 /* CollectionBrowserView.swift */,
 				D3F302C3BD2C93E55A1EF291 /* ColoringView.swift */,
 				00026D85ACEE8B01D98BEC12 /* ConfettiOverlay.swift */,
+				AA7F3FAE06DA945C68EC4608 /* LineArtPreview.swift */,
 				2C96C5D1D27EC4A930B414A4 /* PagePicker.swift */,
 			);
 			path = Coloring;
@@ -184,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				0964776D815475395514C8CA /* ColoringPage.swift */,
+				68F838DB71CE37F6E595C3D0 /* DinosaurLandPages.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -342,13 +351,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C5FB768E274881C5FBC6680 /* CanvasTransform.swift in Sources */,
+				CEA71267CAF9B095B7827331 /* CollectionBrowserView.swift in Sources */,
 				3B4041DF6B491E99CB753971 /* ColoringCanvas.swift in Sources */,
 				0730A57485B366283498BBF8 /* ColoringPage.swift in Sources */,
 				456EC4B1403282A538FB5B8A /* ColoringView.swift in Sources */,
 				A3D50DD5CD6E1E136EEEF0C1 /* ConfettiOverlay.swift in Sources */,
 				7560755D1C7786FA0F6C8DB2 /* CreatePageView.swift in Sources */,
+				627A7BDEA647F022C0B7F7A3 /* DinosaurLandPages.swift in Sources */,
 				4785051F2454795CD17B75EF /* GeneratedPageStore.swift in Sources */,
 				2D2BFFB9B54BD1F957286F4B /* HomeView.swift in Sources */,
+				41596D195293676DA4A0367C /* LineArtPreview.swift in Sources */,
 				40855971BA694E1B53D176C6 /* LineArtRenderer.swift in Sources */,
 				5CB4801450C610996BB02717 /* OpenAIImageGenerator.swift in Sources */,
 				CD84D0152434A00D0613085C /* PagePicker.swift in Sources */,

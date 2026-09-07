@@ -2,7 +2,7 @@ import SwiftUI
 import UIKit
 
 @MainActor
-final class ColoringSession: ObservableObject {
+final class ColoringSession: ObservableObject, @MainActor Identifiable {
     @Published var selectedColorIndex: Int
     @Published var tool: DrawingTool
     @Published var brushSize: CGFloat
@@ -15,14 +15,29 @@ final class ColoringSession: ObservableObject {
     let page: ColoringPage
     let engine: PaintEngine
 
-    init(page: ColoringPage) {
+    var id: UUID { page.id }
+
+    private init(page: ColoringPage, engine: PaintEngine, saved: SavedSession?) {
         self.page = page
-        let saved = SessionStore.shared.session(for: page.id)
         selectedColorIndex = saved?.selectedColor ?? 0
         tool = saved?.tool ?? .crayon
         brushSize = saved?.brushSize ?? BrushSize.default
-        engine = PaintEngine(page: page, restoredActions: saved?.actions ?? [])
+        self.engine = engine
         updateHistoryState()
+    }
+
+    /// Builds a session for `page`, doing the expensive part — decoding
+    /// the line-art image and computing its fill mask (see
+    /// `PaintEngine.makeMask`, an O(pixels) scan plus a dilation pass) —
+    /// off the main actor, so the caller can show a loading indicator
+    /// instead of freezing the UI while it runs.
+    static func preload(page: ColoringPage) async -> ColoringSession {
+        let saved = SessionStore.shared.session(for: page.id)
+        let restoredActions = saved?.actions ?? []
+        let engine = await Task.detached(priority: .userInitiated) {
+            PaintEngine(page: page, restoredActions: restoredActions)
+        }.value
+        return ColoringSession(page: page, engine: engine, saved: saved)
     }
 
     var color: RGBAColor { Palette.colors[selectedColorIndex].rgba }

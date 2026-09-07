@@ -30,6 +30,10 @@ struct ColoringPage: Identifiable, Codable, Hashable, Sendable {
     let difficulty: ColoringDifficulty
     let source: ColoringPageSource
     let lineArt: LineArtSource
+    /// Groups pages produced together as a themed set (e.g. "dinosaur-land"),
+    /// so a collection browser can show them without a separate registry.
+    /// `nil` for the built-in samples, Free Draw, and one-off AI/user pages.
+    var collection: String? = nil
 
     static let samples: [ColoringPage] = [
         .init(id: UUID(uuidString: "11111111-1111-1111-1111-111111111111")!, title: "Happy Flower", difficulty: .verySimple, source: .bundled, lineArt: .procedural(.happyFlower)),
@@ -42,6 +46,7 @@ struct ColoringPage: Identifiable, Codable, Hashable, Sendable {
     static func sample(id: UUID) -> ColoringPage? {
         if id == freeDraw.id { return freeDraw }
         if let match = samples.first(where: { $0.id == id }) { return match }
+        if let match = dinosaurLand.first(where: { $0.id == id }) { return match }
         return GeneratedPageStore.shared.page(id: id)
     }
 }

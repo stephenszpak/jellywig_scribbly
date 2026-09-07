@@ -23,15 +23,15 @@ enum Palette {
 }
 
 struct ColoringView: View {
-    @StateObject private var session: ColoringSession
+    @ObservedObject private var session: ColoringSession
     @State private var showingSaveAlert = false
     @State private var newPageTitle = ""
     @State private var savedBanner: String?
     @State private var saveErrorMessage: String?
     let choosePage: () -> Void
 
-    init(page: ColoringPage, choosePage: @escaping () -> Void) {
-        _session = StateObject(wrappedValue: ColoringSession(page: page)); self.choosePage = choosePage
+    init(session: ColoringSession, choosePage: @escaping () -> Void) {
+        self.session = session; self.choosePage = choosePage
     }
 
     private var isFreeDraw: Bool { session.page.lineArt == .blank }
