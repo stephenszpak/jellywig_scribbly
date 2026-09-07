@@ -1,0 +1,17 @@
+{
+  "name": "coloring-page-generator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Internal batch generator for Scribbly's black-and-white coloring page artwork (OpenAI Images API).",
+  "type": "module",
+  "scripts": {
+    "generate": "tsx src/cli/generate.ts",
+    "validate-concepts": "tsx src/cli/validate.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
