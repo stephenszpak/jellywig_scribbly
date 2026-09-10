@@ -21,7 +21,7 @@ final class ColoringSession: ObservableObject, @MainActor Identifiable {
     private init(page: ColoringPage, engine: PaintEngine, saved: SavedSession?) {
         self.page = page
         selectedColorIndex = saved?.selectedColor ?? 0
-        tool = saved?.tool ?? .crayon
+        tool = saved?.tool ?? .marker
         brushSize = saved?.brushSize ?? BrushSize.default
         glitterEnabled = saved?.glitterEnabled ?? false
         self.engine = engine

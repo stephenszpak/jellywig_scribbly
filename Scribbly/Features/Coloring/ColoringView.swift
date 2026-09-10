@@ -138,7 +138,7 @@ struct ColoringView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 13) {
                     ForEach(Palette.colors) { swatch in
-                        Button { session.selectedColorIndex = swatch.id; if session.tool == .eraser { session.tool = .crayon } } label: {
+                        Button { session.selectedColorIndex = swatch.id; if session.tool == .eraser { session.tool = .marker } } label: {
                             Circle().fill(swatch.color)
                                 .frame(width: compact ? 46 : 54, height: compact ? 46 : 54)
                                 .padding(5)
