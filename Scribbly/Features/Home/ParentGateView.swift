@@ -11,32 +11,37 @@ struct ParentGateView: View {
     @State private var showWrongHint = false
 
     var body: some View {
-        VStack(spacing: 28) {
-            Spacer()
-            Image(systemName: "lock.shield").font(.system(size: 44)).foregroundStyle(.indigo)
-            Text("Grown-ups only").font(.title.bold())
-            Text("What is \(a) + \(b)?").font(.title2)
-            HStack(spacing: 16) {
-                ForEach(options, id: \.self) { option in
-                    Button {
-                        if option == a + b { onPassed() } else { showWrongHint = true; regenerate() }
-                    } label: {
-                        Text("\(option)")
-                            .font(.title2.bold())
-                            .frame(width: 76, height: 60)
-                            .background(Color.indigo.opacity(0.12), in: RoundedRectangle(cornerRadius: 14))
+        ZStack {
+            JellyTheme.softBackground
+            VStack(spacing: 28) {
+                Spacer()
+                Image(systemName: "lock.shield.fill").font(.system(size: 44)).foregroundStyle(Color(hex: 0xC07BFF))
+                Text("Grown-ups only").font(JellyTheme.bubbleFont(28, weight: .bold)).foregroundStyle(JellyTheme.ink)
+                Text("What is \(a) + \(b)?").font(JellyTheme.bubbleFont(21, weight: .semibold)).foregroundStyle(JellyTheme.subInk)
+                HStack(spacing: 16) {
+                    ForEach(options, id: \.self) { option in
+                        Button {
+                            if option == a + b { onPassed() } else { showWrongHint = true; regenerate() }
+                        } label: {
+                            Text("\(option)")
+                                .font(JellyTheme.bubbleFont(22, weight: .bold))
+                                .foregroundStyle(JellyTheme.ink)
+                                .frame(width: 76, height: 60)
+                        }
+                        .buttonStyle(ChunkyButtonStyle(shade: Color(hex: 0x8E42E0).opacity(0.4), cornerRadius: 18, depth: 4))
                     }
-                    .buttonStyle(.plain)
                 }
+                if showWrongHint {
+                    Text("Not quite — try again").foregroundStyle(.red).font(.system(.body, design: .rounded).bold())
+                }
+                Spacer()
+                Button("Cancel") { dismiss() }
+                    .font(.system(.body, design: .rounded).bold())
+                    .foregroundStyle(JellyTheme.subInk)
+                    .padding(.bottom, 20)
             }
-            if showWrongHint {
-                Text("Not quite — try again").foregroundStyle(.red)
-            }
-            Spacer()
-            Button("Cancel") { dismiss() }
-                .padding(.bottom, 20)
+            .padding()
         }
-        .padding()
         .onAppear(perform: regenerate)
     }
 

@@ -14,31 +14,33 @@ struct CollectionBrowserView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                tabBar
-                if visiblePages.isEmpty {
-                    emptyState
-                } else {
-                    ScrollView {
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 220), spacing: 24)], spacing: 24) {
-                            ForEach(visiblePages) { page in
-                                Button {
-                                    selectedPage = page; dismiss()
-                                } label: {
-                                    VStack(spacing: 10) {
-                                        LineArtPreview(page: page).aspectRatio(1, contentMode: .fit)
-                                            .background(.white, in: RoundedRectangle(cornerRadius: 22))
-                                            .overlay(RoundedRectangle(cornerRadius: 22).stroke(selectedPage == page ? Color.indigo : Color.clear, lineWidth: 6))
-                                            .shadow(color: .black.opacity(0.12), radius: 7, y: 3)
-                                        Text(page.title).font(.title3.bold()).foregroundStyle(.primary)
-                                    }
-                                }.buttonStyle(.plain)
-                            }
-                        }.padding(30)
+            ZStack {
+                JellyTheme.softBackground
+                VStack(spacing: 0) {
+                    tabBar
+                    if visiblePages.isEmpty {
+                        emptyState
+                    } else {
+                        ScrollView {
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 220), spacing: 24)], spacing: 24) {
+                                ForEach(visiblePages) { page in
+                                    Button {
+                                        selectedPage = page; dismiss()
+                                    } label: {
+                                        VStack(spacing: 10) {
+                                            LineArtPreview(page: page).aspectRatio(1, contentMode: .fit)
+                                                .background(.white, in: RoundedRectangle(cornerRadius: 22))
+                                                .overlay(RoundedRectangle(cornerRadius: 22).stroke(selectedPage == page ? Color(hex: 0xC07BFF) : Color.clear, lineWidth: 6))
+                                                .shadow(color: .black.opacity(0.12), radius: 7, y: 3)
+                                            Text(page.title).font(JellyTheme.bubbleFont(19, weight: .bold)).foregroundStyle(JellyTheme.ink)
+                                        }
+                                    }.buttonStyle(.plain)
+                                }
+                            }.padding(30)
+                        }
                     }
                 }
             }
-            .background(Color(red: 0.93, green: 0.95, blue: 0.98))
             .navigationTitle(title)
             .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Done") { dismiss() }.font(.headline) } }
         }
@@ -50,14 +52,13 @@ struct CollectionBrowserView: View {
             DifficultyTabButton(title: "Intermediate", selected: difficulty == .intermediate) { difficulty = .intermediate }
         }
         .padding(.horizontal, 24).padding(.vertical, 16)
-        .background(.white)
     }
 
     private var emptyState: some View {
         VStack(spacing: 12) {
             Spacer()
-            Image(systemName: "photo.on.rectangle.angled").font(.system(size: 44)).foregroundStyle(.secondary)
-            Text("No pages here yet").font(.title3.bold()).foregroundStyle(.secondary)
+            Image(systemName: "photo.on.rectangle.angled").font(.system(size: 44)).foregroundStyle(JellyTheme.subInk)
+            Text("No pages here yet").font(JellyTheme.bubbleFont(18, weight: .bold)).foregroundStyle(JellyTheme.subInk)
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -69,11 +70,11 @@ private struct DifficultyTabButton: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.title3.bold())
-                .foregroundStyle(selected ? .white : .indigo)
+                .font(JellyTheme.bubbleFont(17, weight: .bold))
+                .foregroundStyle(selected ? .white : Color(hex: 0x8E42E0))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
-                .background(selected ? Color.indigo : Color.indigo.opacity(0.12), in: RoundedRectangle(cornerRadius: 18))
+                .background(selected ? Color(hex: 0xC07BFF) : Color(hex: 0xC07BFF).opacity(0.14), in: RoundedRectangle(cornerRadius: 18))
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(selected ? .isSelected : [])

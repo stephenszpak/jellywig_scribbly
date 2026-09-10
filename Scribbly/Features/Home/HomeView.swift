@@ -5,13 +5,13 @@ private struct PageCollection: Identifiable {
     let title: String
     let subtitle: String
     let symbol: String
-    let color: Color
+    let kidTint: KidTint
     let pages: [ColoringPage]
 }
 
 private let pageCollections: [PageCollection] = [
-    PageCollection(id: "dinosaur-land", title: "Dinosaur Land", subtitle: "Simple and intermediate dino pages", symbol: "leaf.fill", color: .green, pages: ColoringPage.dinosaurLand),
-    PageCollection(id: "axolotl-land", title: "Axolotl Land", subtitle: "Simple and intermediate axolotl pages", symbol: "drop.fill", color: .pink, pages: ColoringPage.axolotlLand),
+    PageCollection(id: "dinosaur-land", title: "Dinosaur Land", subtitle: "Simple and intermediate dino pages", symbol: "leaf.fill", kidTint: .green, pages: ColoringPage.dinosaurLand),
+    PageCollection(id: "axolotl-land", title: "Axolotl Land", subtitle: "Simple and intermediate axolotl pages", symbol: "drop.fill", kidTint: .pink, pages: ColoringPage.axolotlLand),
 ]
 
 struct HomeView: View {
@@ -24,37 +24,45 @@ struct HomeView: View {
 
     var body: some View {
         ZStack {
-            VStack(spacing: 28) {
-                Spacer()
-                VStack(spacing: 6) {
-                    Text("Scribbly").font(.system(size: 52, weight: .heavy, design: .rounded)).foregroundStyle(.indigo)
-                    Text("Pick something to color").font(.title3).foregroundStyle(.secondary)
+            JellyTheme.skyBackground
+            SkyDecor()
+
+            VStack(spacing: 20) {
+                VStack(spacing: 8) {
+                    Text("Jellywigs")
+                        .font(JellyTheme.bubbleFont(50))
+                        .foregroundStyle(Color(hex: 0xFF5D8F))
+                        .shadow(color: Color(hex: 0x6B2455), radius: 0, x: 0, y: 3)
+                    Text("What do you want to color today?")
+                        .font(JellyTheme.bubbleFont(15, weight: .semibold))
+                        .foregroundStyle(JellyTheme.subInk)
+                        .padding(.horizontal, 16).padding(.vertical, 4)
+                        .background(.white.opacity(0.7), in: Capsule())
                 }
-                Spacer()
+                .padding(.top, 24)
+
                 ScrollView {
-                    VStack(spacing: 20) {
-                        HomeOptionButton(title: "Free Draw", subtitle: "A blank page just for you", symbol: "pencil.and.scribble", color: .teal) {
+                    VStack(spacing: 14) {
+                        HomeOptionButton(title: "Free Draw", subtitle: "A blank page just for you", symbol: "pencil.and.scribble", kidTint: .teal) {
                             openPage(.freeDraw)
                         }
-                        HomeOptionButton(title: "Create a Page", subtitle: "Make a new picture", symbol: "sparkles", color: .purple) {
+                        HomeOptionButton(title: "Create a Page", subtitle: "Make a brand new picture", symbol: "sparkles", kidTint: .purple) {
                             showingCreateFlow = true
                         }
-                        HomeOptionButton(title: "Pick a Picture", subtitle: "Choose from our gallery", symbol: "photo.on.rectangle.angled", color: .indigo) {
+                        HomeOptionButton(title: "Pick a Picture", subtitle: "Choose from our gallery", symbol: "photo.on.rectangle.angled", kidTint: .orange) {
                             showingPagePicker = true
                         }
                         ForEach(pageCollections) { collection in
-                            HomeOptionButton(title: collection.title, subtitle: collection.subtitle, symbol: collection.symbol, color: collection.color) {
+                            HomeOptionButton(title: collection.title, subtitle: collection.subtitle, symbol: collection.symbol, kidTint: collection.kidTint) {
                                 presentedCollection = collection
                             }
                         }
                     }
-                    .padding(.horizontal, 48)
+                    .padding(.horizontal, 22)
+                    .padding(.bottom, 20)
                 }
-                Spacer()
-                Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(red: 0.93, green: 0.95, blue: 0.98))
 
             if isLoadingPage {
                 LoadingOverlay()
@@ -103,8 +111,8 @@ private struct LoadingOverlay: View {
         ZStack {
             Color.black.opacity(0.15).ignoresSafeArea()
             VStack(spacing: 16) {
-                ProgressView().scaleEffect(1.6).tint(.indigo)
-                Text("Getting your page ready...").font(.headline).foregroundStyle(.primary)
+                ProgressView().scaleEffect(1.6).tint(Color(hex: 0xC07BFF))
+                Text("Getting your page ready...").font(JellyTheme.bubbleFont(16, weight: .bold)).foregroundStyle(JellyTheme.ink)
             }
             .padding(28)
             .background(.white, in: RoundedRectangle(cornerRadius: 24))
@@ -115,28 +123,35 @@ private struct LoadingOverlay: View {
 }
 
 private struct HomeOptionButton: View {
-    let title: String, subtitle: String, symbol: String, color: Color
+    let title: String, subtitle: String, symbol: String
+    let kidTint: KidTint
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 18) {
-                Image(systemName: symbol)
-                    .font(.system(size: 28, weight: .bold))
-                    .foregroundStyle(.white)
-                    .frame(width: 56, height: 56)
-                    .background(color, in: RoundedRectangle(cornerRadius: 16))
+            HStack(spacing: 16) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 18).fill(kidTint.tint)
+                    Image(systemName: symbol)
+                        .font(.system(size: 26, weight: .bold))
+                        .foregroundStyle(.white)
+                }
+                .frame(width: 58, height: 58)
+                .rotationEffect(.degrees(-4))
+
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(title).font(.title2.bold()).foregroundStyle(.primary)
-                    Text(subtitle).font(.subheadline).foregroundStyle(.secondary)
+                    Text(title).font(JellyTheme.bubbleFont(20, weight: .bold)).foregroundStyle(JellyTheme.ink)
+                    Text(subtitle).font(.system(size: 13.5, weight: .bold, design: .rounded)).foregroundStyle(JellyTheme.subInk)
                 }
                 Spacer()
-                Image(systemName: "chevron.right").foregroundStyle(.secondary)
+                ZStack {
+                    Circle().fill(Color(hex: 0xF1EDFF))
+                    Image(systemName: "chevron.right").font(.system(size: 12, weight: .bold)).foregroundStyle(JellyTheme.subInk)
+                }
+                .frame(width: 28, height: 28)
             }
-            .padding(16)
-            .background(.white, in: RoundedRectangle(cornerRadius: 22))
-            .shadow(color: .black.opacity(0.08), radius: 6, y: 3)
+            .padding(14)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(ChunkyButtonStyle(shade: kidTint.shade, cornerRadius: 26))
     }
 }

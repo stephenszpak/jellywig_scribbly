@@ -51,7 +51,7 @@ struct ColoringView: View {
                     SavedBanner(text: savedBanner).transition(.move(edge: .top).combined(with: .opacity))
                 }
             }
-            .background(Color(red: 0.93, green: 0.95, blue: 0.98))
+            .background(Color(hex: 0xFFF9E4))
         }
         .ignoresSafeArea(.keyboard)
         .onChange(of: session.selectedColorIndex) { _, _ in session.persist() }

@@ -24,6 +24,7 @@
 		6912D54010883E7C0518F932 /* ColoringPages in Resources */ = {isa = PBXBuildFile; fileRef = C41EC7D275BF2721F9625209 /* ColoringPages */; };
 		7560755D1C7786FA0F6C8DB2 /* CreatePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FFCDE1C4452D1950E5A19C /* CreatePageView.swift */; };
 		78CE16B5CAF1BC8CE6C3DE5F /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146768FD4EEBF23D80EE89FB /* Secrets.swift */; };
+		3D424B5D61A832A15032D52F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D48430736BADED71D08FC0C /* Theme.swift */; };
 		7ADE2DF90C30E51C63F080CA /* ScribblyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135FDECFDBDD71B3083BD7E1 /* ScribblyTests.swift */; };
 		8D758A329C53A52F0B72532B /* fill_chime.wav in Resources */ = {isa = PBXBuildFile; fileRef = D1F443C740D74639ADC88D6A /* fill_chime.wav */; };
 		9C5FB768E274881C5FBC6680 /* CanvasTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3A330EE66A501794A0CF02 /* CanvasTransform.swift */; };
@@ -53,6 +54,7 @@
 		11F10C3A6061D2157F55E598 /* CollectionBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionBrowserView.swift; sourceTree = "<group>"; };
 		135FDECFDBDD71B3083BD7E1 /* ScribblyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribblyTests.swift; sourceTree = "<group>"; };
 		146768FD4EEBF23D80EE89FB /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		5D48430736BADED71D08FC0C /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		18FF606F81CA09FDEB1B90AF /* OpenAIImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIImageGenerator.swift; sourceTree = "<group>"; };
 		2808930224E5C98C3DB310D7 /* celebration.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = celebration.wav; sourceTree = "<group>"; };
 		2C96C5D1D27EC4A930B414A4 /* PagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagePicker.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			children = (
 				67872CF221E6546759FCF681 /* ScribblyApp.swift */,
 				146768FD4EEBF23D80EE89FB /* Secrets.swift */,
+				5D48430736BADED71D08FC0C /* Theme.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				2192C14D21F2C183AD1E5FBC /* ParentGateView.swift in Sources */,
 				A2E18BD99FBE90245448D7D2 /* ScribblyApp.swift in Sources */,
 				78CE16B5CAF1BC8CE6C3DE5F /* Secrets.swift in Sources */,
+				3D424B5D61A832A15032D52F /* Theme.swift in Sources */,
 				EA3E7BE4CA1CDFB0C612B9D2 /* SessionStore.swift in Sources */,
 				D0289C1E53BD41B5E8C9FEFB /* SoundPlayer.swift in Sources */,
 				D7A419AB96323A91E6F23CC1 /* StickerRenderer.swift in Sources */,
@@ -398,7 +402,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Scribbly;
+				INFOPLIST_KEY_CFBundleDisplayName = Jellywigs;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -439,7 +443,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Scribbly;
+				INFOPLIST_KEY_CFBundleDisplayName = Jellywigs;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
